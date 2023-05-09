@@ -1,0 +1,9 @@
+name: env_xct
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.9.*
+  - pip=21.*
+  - tomopy=1.11.*
+  - dxchange=0.*

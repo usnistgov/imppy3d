@@ -1,0 +1,20 @@
+name: env_xct
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.9.*
+  - pip=21.*
+  - numpy=1.21.*
+  - scikit-image=0.19.*
+  - scipy=1.7.*
+  - opencv=4.5.*
+  - matplotlib=3.5.*
+  - pyvista=0.34.*
+  - vtk=9.2.*
+  - cython=0.29.*
+  - meshio=5.3.*
+  - imageio=2.22.*
+  - imageio-ffmpeg=0.4.*
+  - pillow=9.*
+  - tifffile=2022.*
