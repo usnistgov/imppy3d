@@ -1198,7 +1198,7 @@ def save_multipage_image(imgs_in, path_in, bigtiff=0,\
 
     bigtiff_compression_settings = {'bigtiff': bigtiff,\
                                     'imagej': imagej,\
-                                    'compression': compression}
+                                    'compressionargs': compression}
    
     io.imsave(file_path, imgs, plugin='tifffile', \
               photometric='minisblack', **bigtiff_compression_settings)
