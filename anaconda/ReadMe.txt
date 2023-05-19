@@ -61,4 +61,4 @@ At this point, the additional dependencies can be installed using PIP
 via the included text file called "requirements.txt". Use the following
 PIP command to install them:
 
-  pip install --user --no-deps --only-binary=:all: -r requirements.txt
+  pip install --user --prefer-binary -r requirements.txt

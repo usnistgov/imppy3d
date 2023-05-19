@@ -26,7 +26,7 @@ PIP. First, you must activate the new environment,
 The dependencies are included in a text file called "requirements.txt".
 Use the following PIP command to install them:
 
-  pip install --user --no-deps --only-binary=:all: -r requirements.txt
+  pip install --user --prefer-binary -r requirements.txt
 
 Note, without the "--user" flag, this installation will fail. As of
 now, it is unclear as to why. 
