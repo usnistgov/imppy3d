@@ -54,10 +54,11 @@ following steps:
 
 Then, you must activate the new environment,
 
-    conda activate env_xct
+  conda activate env_xct
+  conda update --all
 
 At this point, the additional dependencies can be installed using PIP
 via the included text file called "requirements.txt". Use the following
 PIP command to install them:
 
-  pip install --user -r requirements.txt
+  pip install --user --no-deps --only-binary=:all: -r requirements.txt

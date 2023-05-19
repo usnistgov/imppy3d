@@ -4,7 +4,7 @@ channels:
   - anaconda
 dependencies:
   - python=3.9.*
-  - pip=21.*
+  - pip
   - openssl=1.1.*
   - tomopy=1.11.*
   - dxchange=0.*
