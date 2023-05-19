@@ -44,8 +44,20 @@ be installed with the following command:
   conda env create -f anaconda_env_py39_generic.yml
 
 This will use the Conda package manager to resolve dependency issues.
-However, Conda can be time consuming. An alternative installation method
-utilizes the PIP manger instead of Conda. This can easily be tried using 
-following generic-PIP YML file:
+However, Conda can be time consuming compared to PIP. 
+
+An alternative installation method utilizes the PIP manger instead of Conda.
+This can easily be tried using following generic-PIP YML file along with the
+following steps:
 
   conda env create -f anaconda_env_py39_generic_pip.yml
+
+Then, you must activate the new environment,
+
+    conda activate env_xct
+
+At this point, the additional dependencies can be installed using PIP
+via the included text file called "requirements.txt". Use the following
+PIP command to install them:
+
+  pip install --user -r requirements.txt

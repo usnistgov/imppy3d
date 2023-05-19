@@ -5,6 +5,7 @@ channels:
 dependencies:
   - python=3.9.*
   - pip=21.*
+  - openssl=1.1.*
   - numpy=1.21.*
   - scikit-image=0.19.*
   - scipy=1.7.*
@@ -18,3 +19,4 @@ dependencies:
   - imageio-ffmpeg=0.4.*
   - pillow=9.*
   - tifffile=2022.*
+  - imagecodecs=2022.7.*
