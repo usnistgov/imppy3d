@@ -46,7 +46,7 @@ be installed with the following command:
 This will use the Conda package manager to resolve dependency issues.
 However, Conda can be time consuming compared to PIP. 
 
-An alternative installation method utilizes the PIP manger instead of Conda.
+An alternative installation method utilizes the PIP manager instead of Conda.
 This can easily be tried using following generic-PIP YML file along with the
 following steps:
 
