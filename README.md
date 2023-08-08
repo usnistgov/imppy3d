@@ -100,6 +100,15 @@ to contact Dr. Newell Moser (see below).
 ### Acknowledgement:
 * Dr. Edward J. Garboczi
 
+## Citing This Library
+If imppy3d has been significant in your research, and you would like to acknowledge
+the project in your academic publication, we suggest citing the following NIST data
+repository:
+
+Moser, Newell H., Landauer, Alexander K., Kafka, Orion L. (2023), Imppy3d: Image
+processing in python for 3D image stacks, National Institute of Standards and
+Technology, https://doi.org/10.18434/mds2-2806
+
 ## License
 NIST-developed software is provided by NIST as a public service. You may
 use, copy, and distribute copies of the software in any medium,
