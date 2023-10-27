@@ -492,10 +492,10 @@ def load_image_seq(path_in, file_name_in='', img_bitdepth_in='uint8',
     else:
         files = glob.glob(dir_path + '*') # All files in directory
         if files:
-            # Makes forward slashes into backward slashes for W10, and
-            # also makes the directory string all lowercase
-            cur_name = os.path.normcase(cur_name)
             for cur_name in files:
+                # Makes forward slashes into backward slashes for W10, and
+                # also makes the directory string all lowercase
+                cur_name = os.path.normcase(cur_name)
                 # Only keep image files
                 if (cur_name.lower()).endswith(file_ext):
                     img_names.append(cur_name)
@@ -733,10 +733,10 @@ def load_image_seq_ASCII(path_in, file_name_in='', indices_in=(),
     else:
         files = glob.glob(dir_path + '*') # All files in directory
         if files:
-            # Makes forward slashes into backward slashes for W10, and
-            # also makes the directory string all lowercase
-            cur_name = os.path.normcase(cur_name)
             for cur_name in files:
+                # Makes forward slashes into backward slashes for W10, and
+                # also makes the directory string all lowercase
+                cur_name = os.path.normcase(cur_name)
                 # Only keep image files
                 if (cur_name.lower()).endswith(file_ext):
                     img_names.append(cur_name)
