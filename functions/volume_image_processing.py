@@ -823,13 +823,13 @@ def img_rotate_3D(img_arr_in, axis_in, angle_in, binarize=False):
 
 
 def rodrigues_rot3(pnts_arr_in, vec3_axis_in, angle_rad_in, 
-        rot_center_in=None, dtype_out=np.float, vectorized=True):
+        rot_center_in=None, dtype_out=np.float64, vectorized=True):
     """
     Applies the Rodrigues rotation formula to a Numpy array of coordinates.
     """
 
     # If memory is tight, consider trying to get away with a half-precision 
-    # float to save memory. That is, np.float16 instead of np.float.
+    # float to save memory. That is, np.float16 instead of np.float64.
     # Size is (n_pnts, 3) where each row contains the [X, Y, Z] coordinates
     pnts_arr_out = pnts_arr_in.astype(dtype_out, copy=True) # Full "deep" copy
     num_pnts = pnts_arr_in.shape[0]
@@ -852,9 +852,9 @@ def rodrigues_rot3(pnts_arr_in, vec3_axis_in, angle_rad_in,
     # If rot_center is equal to None, rotate about the centroid of the points
     rot_center = np.zeros(3, dtype=dtype_out)
     if rot_center_in is None:
-        sum_0 = np.sum(pnts_arr_in[:,0], dtype=np.float) # To prevent overflow,
-        sum_1 = np.sum(pnts_arr_in[:,1], dtype=np.float) # use float for a
-        sum_2 = np.sum(pnts_arr_in[:,2], dtype=np.float) # second
+        sum_0 = np.sum(pnts_arr_in[:,0], dtype=np.float64) # To prevent overflow,
+        sum_1 = np.sum(pnts_arr_in[:,1], dtype=np.float64) # use float for a
+        sum_2 = np.sum(pnts_arr_in[:,2], dtype=np.float64) # second
         rot_center[0] = (sum_0/num_pnts).astype(dtype_out)
         rot_center[1] = (sum_1/num_pnts).astype(dtype_out)
         rot_center[2] = (sum_2/num_pnts).astype(dtype_out)
