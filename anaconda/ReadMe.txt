@@ -58,10 +58,10 @@ Then, you must activate the new environment,
   conda update --all
 
 At this point, the additional dependencies can be installed using PIP
-via the included text file called "requirements.txt". Use the following
+via the included text file called "requirements_py39.txt". Use the following
 PIP command to install them:
 
-  pip install --user --prefer-binary -r requirements.txt
+  pip install --user --prefer-binary -r requirements_py39.txt
 
 
 ---- Tips and Troubleshooting ----
