@@ -18,7 +18,7 @@ https://www.anaconda.com/products/distribution
 https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
 
----- Installing the Necessary Anaconda Packages ----
+---- Installing the Necessary (Generic) Anaconda Packages ----
 
 The specific Anaconda environment used for development of these scripts has
 been copied into the text files within this folder. These files have .yml 
@@ -62,3 +62,31 @@ via the included text file called "requirements.txt". Use the following
 PIP command to install them:
 
   pip install --user --prefer-binary -r requirements.txt
+
+
+---- Tips and Troubleshooting ----
+
+If you are having trouble installing the generic Anaconda packages, you can
+try installing them using the Miniforge3 package manager instead of Anaconda.
+Miniforge is an open-source initiative that closely mimics Anaconda, but
+performs far more quickly. The same Anaconda commands can be used as well, 
+but instead of using "conda", simply use, "mamba". More information can be
+found here,
+
+https://github.com/conda-forge/miniforge
+
+
+---- Installing the Necessary (Exact) Anaconda Packages ----
+
+As an alternative to generic environments, exact replicates of the Python
+environments that were used to develop and test imppy3d can also be installed.
+These environment files, saved as .yml files, are provided in the two
+subdirectories: one for Linux systems called "Linux_x64_PreMade_Env", and one
+for Windows systems called "Windows_x64_PreMade_Env". Be sure to install the 
+most up-to-date .yml file that uses Python 3.10, which will be denoted in the
+name of the file, such as "miniforge_xct_env_win_x64_py3p10.yml". The same 
+installation instructions mentioned above can be used to install one of these
+environments. For example,
+
+  conda env create -f miniforge_xct_env_win_x64_py3p10.yml
+

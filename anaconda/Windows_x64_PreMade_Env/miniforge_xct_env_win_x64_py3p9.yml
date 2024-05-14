@@ -1,4 +1,4 @@
-name: xct_env
+name: env_xct
 channels:
   - defaults
   - conda-forge
