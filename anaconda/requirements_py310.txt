@@ -1,0 +1,14 @@
+numpy==1.26.*
+scikit-image==0.20.*
+scipy==1.11.*
+opencv-python==4.6.*
+matplotlib==3.8.*
+pyvista==0.34.*
+vtk==9.2.*
+cython==3.0.*
+meshio==5.3.*
+imageio==2.22.*
+imageio-ffmpeg==0.4.*
+Pillow==9.*
+tifffile==2022.*
+imagecodecs==2022.7.*
