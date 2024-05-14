@@ -319,8 +319,8 @@ def calc_surf_normal3(img_arr_in, search_in, radius_in):
     init0 = search_in[0]
     init1 = search_in[1]
     init2 = search_in[2]
-    rad1 = (np.rint(radius_in[0])).astype(np.int)
-    rad2 = (np.rint(radius_in[1])).astype(np.int)
+    rad1 = (np.rint(radius_in[0])).astype(np.int64)
+    rad2 = (np.rint(radius_in[1])).astype(np.int64)
     # ---- End Start Local Copies ----
 
     # Determine which dimension the raycast will be performed along
@@ -332,8 +332,8 @@ def calc_surf_normal3(img_arr_in, search_in, radius_in):
     if type(init0) == str:
         ray_dim = 0
         max_ray_dim = img_arr.shape[0]
-        indx_pln = (    np.rint(init1).astype(np.int), \
-                        np.rint(init2).astype(np.int)   )
+        indx_pln = (    np.rint(init1).astype(np.int64), \
+                        np.rint(init2).astype(np.int64)   )
         init0 = (init0.upper()).strip()
         if init0[0] == 'D':
             is_ascend = False
@@ -341,8 +341,8 @@ def calc_surf_normal3(img_arr_in, search_in, radius_in):
     elif type(init1) == str:
         ray_dim = 1
         max_ray_dim = img_arr.shape[1]
-        indx_pln = (    np.rint(init0).astype(np.int), \
-                        np.rint(init2).astype(np.int)   )
+        indx_pln = (    np.rint(init0).astype(np.int64), \
+                        np.rint(init2).astype(np.int64)   )
         init1 = (init1.upper()).strip()
         if init1[0] == 'D':
             is_ascend = False
@@ -350,8 +350,8 @@ def calc_surf_normal3(img_arr_in, search_in, radius_in):
     elif type(init2) == str:
         ray_dim = 2
         max_ray_dim = img_arr.shape[2]
-        indx_pln = (    np.rint(init0).astype(np.int), \
-                        np.rint(init1).astype(np.int)   )
+        indx_pln = (    np.rint(init0).astype(np.int64), \
+                        np.rint(init1).astype(np.int64)   )
         init2 = (init2.upper()).strip()
         if init2[0] == 'D':
             is_ascend = False
@@ -363,7 +363,7 @@ def calc_surf_normal3(img_arr_in, search_in, radius_in):
 
     # Find the white pixels
     num_search_pix = (rad1*2 + 1)*(rad2*2 + 1)
-    pix_coords = (np.zeros((num_search_pix,3))).astype(np.int)
+    pix_coords = (np.zeros((num_search_pix,3))).astype(np.int32)
 
     # Search within the range of indices
     pix_cnt = 0
@@ -444,7 +444,7 @@ def calc_surf_normal3(img_arr_in, search_in, radius_in):
         return [None, None, None]
 
     elif skip_pix:
-        pix_coords_out = (np.zeros((num_search_pix-len(skip_pix),3))).astype(np.int)
+        pix_coords_out = (np.zeros((num_search_pix-len(skip_pix),3))).astype(np.int32)
         skip_m = 0
         save_m = 0
         for m, cur_pix in enumerate(pix_coords):
