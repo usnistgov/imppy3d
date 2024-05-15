@@ -36,12 +36,12 @@ following:
 
 In order to keep the Anaconda dependencies generic for both Windows/Linux
 systems, an Anaconda installation environment file has been created called,
-"anaconda_env_py39_generic.yml". This Anaconda environment file contains
+"anaconda_env_py310_generic.yml". This Anaconda environment file contains
 a list of the dependencies (and their respective versions) required by
 imppy3d. A new Anaconda environment, which will be called "env_xct", can
 be installed with the following command:
 
-  conda env create -f anaconda_env_py39_generic.yml
+  conda env create -f anaconda_env_py310_generic.yml
 
 This will use the Conda package manager to resolve dependency issues.
 However, Conda can be time consuming compared to PIP. 
@@ -50,7 +50,7 @@ An alternative installation method utilizes the PIP manager instead of Conda.
 This can easily be tried using following generic-PIP YML file along with the
 following steps:
 
-  conda env create -f anaconda_env_py39_generic_pip.yml
+  conda env create -f anaconda_env_py310_generic_pip.yml
 
 Then, you must activate the new environment,
 
@@ -58,10 +58,10 @@ Then, you must activate the new environment,
   conda update --all
 
 At this point, the additional dependencies can be installed using PIP
-via the included text file called "requirements_py39.txt". Use the following
+via the included text file called "requirements_py310.txt". Use the following
 PIP command to install them:
 
-  pip install --user --prefer-binary -r requirements_py39.txt
+  pip install --user --prefer-binary -r requirements_py310.txt
 
 
 ---- Tips and Troubleshooting ----
