@@ -1,26 +1,26 @@
-# imppy3d
+# IMPPY3D
 
 Image Processing in Python for 3D image stacks.
 
 ## Description
-Image Processing in Python for 3D image stacks, or imppy3d, is a software
+Image Processing in Python for 3D image stacks, or IMPPY3D, is a software
 repository comprising mostly Python scripts that simplify post-processing and
 3D shape characterization of grayscale image stacks, otherwise known as
-volume-based images, 3D images, or voxel models. imppy3d was originally created
+volume-based images, 3D images, or voxel models. IMPPY3D was originally created
 for post-processing image stacks generated from X-ray computed tomography
-measurements. However, imppy3d also contains a functions to aid in
+measurements. However, IMPPY3D also contains a functions to aid in
 post-processing general 2D/3D images. 
 
 Python was chosen for this library because of it is a productive, easy-to-use
 language. However, for computationally intense calculations, compiled codes and
 libraries are used for improved performance, such as well known libraries like
-Numpy and SciKit-Image. Compiled libraries internal to imppy3d were created
-using Cython. imppy3d was developed in an Anaconda environment with Windows 10
+Numpy and SciKit-Image. Compiled libraries internal to IMPPY3D were created
+using Cython. IMPPY3D was developed in an Anaconda environment with Windows 10
 and Linux in mind, and suitable Anaconda environment files for these operating
 systems are provided to simplify the process of installing the necessary
 dependencies although some dependancy resolution may still be required. 
 
-Some of the highlighted capabilies of imppy3d include: interactive graphical
+Some of the highlighted capabilies of IMPPY3D include: interactive graphical
 user-interfaces (GUIs) available for many image processing functions, various
 2D/3D image filters (e.g., blurring, sharpening, denoising, erosion/dilation),
 the ability to segment and label continuous 3D objects, precisely rotating an
@@ -41,7 +41,7 @@ powder-particles commonly used in metal-based additive manufacturing.
 
 ![](./readme_pics/synthetic_powder_particles_img_stack.gif)
 
-Using imppy3d, the synthetic image stack can be denoised and segmented. Then,
+Using IMPPY3D, the synthetic image stack can be denoised and segmented. Then,
 the segmented particles can be converted into voxel model. As a demonstration,
 these powder particles were characterized in terms of volume, porosity,
 orientation, aspect ratio, sphericity, and more. Additional information can be
@@ -51,19 +51,21 @@ script, "./examples/segment_3d_particles/segment_3D_powder_particles.py".
 ![](./readme_pics/synthetic_powder_particles_voxels.gif)
 
 
-## Installation
-The development of imppy3d uses the Anaconda package manager. To utilize
-imppy3d, you will need to install additional Python libraries. A full list of
-these Python dependencies can be found in the "./anaconda/" folder via YML text
-files. Step-by-step instructions on setting up a suitable Anaconda folder, for
-either a Windows or Linux environment, can also be found in the "./anaconda/"
-folder. Generic installation files that utilize PIP are also provided for 
-installing imppy3d on operating systems other than Windows 10/Ubuntu 22.
+## Installation 
+The development of IMPPY3D uses the 
+[Miniforge](https://github.com/conda-forge/miniforge) package manager
+(Anaconda will work as well). To utilize IMPPY3D, you will need to install
+additional Python libraries. A full list of these Python dependencies can be
+found in the "./dependencies/" folder via YML text files. Step-by-step
+instructions on setting up a suitable Python environment, for either a Windows
+or Linux environment, can also be found in the "./dependencies/" folder.
+Generic installation files that utilize PIP are also provided for installing
+IMPPY3D on operating systems other than Windows or Linux.
 
 ## Usage Examples 
 A number of example Python scripts are provided in
 the "./examples/" folder to help facilitate rapid development of new
-projects. As we continue to use imppy3d in new applications, we aim to
+projects. As we continue to use IMPPY3D in new applications, we aim to
 continue to provide new example scripts in this folder. 
 
 ## Roadmap
@@ -81,10 +83,10 @@ characterizing voids and defects in additively manufactured metals, and so on.
 
 ## Support
 If you encounter any bugs or unintended behavior, please create an "Issue" in
-the imppy3d GitHub repository and report a bug. You can also make a request for
+the IMPPY3D GitHub repository and report a bug. You can also make a request for
 new features in this way. 
 
-For questions on how best to use imppy3d for a specific application, feel free
+For questions on how best to use IMPPY3D for a specific application, feel free
 to contact Dr. Newell Moser (see below).  
 
 ## Authors and acknowledgment
@@ -101,11 +103,11 @@ to contact Dr. Newell Moser (see below).
 * Dr. Edward J. Garboczi
 
 ## Citing This Library
-If imppy3d has been significant in your research, and you would like to acknowledge
+If IMPPY3D has been significant in your research, and you would like to acknowledge
 the project in your academic publication, we suggest citing the following NIST data
 repository:
 
-Moser, Newell H., Landauer, Alexander K., Kafka, Orion L. (2023), Imppy3d: Image
+Moser, Newell H., Landauer, Alexander K., Kafka, Orion L. (2023), IMPPY3D: Image
 processing in python for 3D image stacks, National Institute of Standards and
 Technology, https://doi.org/10.18434/mds2-2806
 
