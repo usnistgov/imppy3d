@@ -1,20 +1,27 @@
 This directory contains .yml text files which are used to define an enviroment
-within the Anaconda package manager. The user can install all of the
-necessary dependencies to run imppy3d from these .yml files. imppy3d has been
-tested on Windows 10 x64 and Ubuntu 20.04 x64 using Python 3.9. However,
-imppy3d is expected to work for other Linux x64 distros as well as Windows 11
-x64, so long as Anaconda and Python 3.9 are used. If a different operating
-system is used, then the pre-compiled Cython extensions may not work. In
-which case, the Cython extensions would need to be compiled for your
-operating system and placed in the "./functions/cython/bin" folder.
+within the Anaconda package manager. The user can install all of the necessary
+dependencies to run IMPPY3D from these .yml files. IMPPY3D has been tested on
+Windows 10/11 x64 and Ubuntu 20.04/22.04 x64 using Python 3.9 and Python 3.10.
+If a different operating system is used (i.e., macOS), then the pre-compiled
+Cython extensions will not work. In which case, the Cython extensions must be
+compiled for your operating system and placed in the "./functions/cython/bin"
+folder.
 
 
----- Anaconda Documentation ----
+---- Anaconda/Miniforge Documentation ----
 
-Links are provided below for downloading Anaconda as well as the official
-Anaconda documentation:
+The authors of IMPPY3D use Miniforge and Mamba to set up the appropriate Python
+environment to develop IMPPY3D, but Anaconda and Conda will work as well.
+Miniforge is an open-source initiative that closely mimics Anaconda. Similar
+Anaconda commands can be used as well in Miniforge, but instead of using
+the "conda" command, Miniforge uses the "mamba" command.
 
-https://www.anaconda.com/products/distribution
+For simplicity moving forward, the Python environment that contains all of the
+necessary dependencies will be referred to as the Anaconda environment. Links
+are provided below for downloading Miniforge; the official Anaconda
+documentation is also suitable for Miniforge.
+
+https://github.com/conda-forge/miniforge
 https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
 
@@ -29,7 +36,7 @@ dependencies, which is recommended, type the following in an Anaconda prompt:
 
 where "env_file.yml" is replaced with the actual name of the text file. 
 After installing the environment, make sure to activate the environment 
-before running any imppy3d examples or scripts. This is achieved by the
+before running any IMPPY3D examples or scripts. This is achieved by the
 following:
 
   conda activate env_xct
@@ -38,7 +45,7 @@ In order to keep the Anaconda dependencies generic for both Windows/Linux
 systems, an Anaconda installation environment file has been created called,
 "anaconda_env_py310_generic.yml". This Anaconda environment file contains
 a list of the dependencies (and their respective versions) required by
-imppy3d. A new Anaconda environment, which will be called "env_xct", can
+IMPPY3D. A new Anaconda environment, which will be called "env_xct", can
 be installed with the following command:
 
   conda env create -f anaconda_env_py310_generic.yml
@@ -64,22 +71,10 @@ PIP command to install them:
   pip install --user --prefer-binary -r requirements_py310.txt
 
 
----- Tips and Troubleshooting ----
-
-If you are having trouble installing the generic Anaconda packages, you can
-try installing them using the Miniforge3 package manager instead of Anaconda.
-Miniforge is an open-source initiative that closely mimics Anaconda, but
-performs far more quickly. The same Anaconda commands can be used as well, 
-but instead of using "conda", simply use, "mamba". More information can be
-found here,
-
-https://github.com/conda-forge/miniforge
-
-
 ---- Installing the Necessary (Exact) Anaconda Packages ----
 
 As an alternative to generic environments, exact replicates of the Python
-environments that were used to develop and test imppy3d can also be installed.
+environments that were used to develop and test IMPPY3D can also be installed.
 These environment files, saved as .yml files, are provided in the two
 subdirectories: one for Linux systems called "Linux_x64_PreMade_Env", and one
 for Windows systems called "Windows_x64_PreMade_Env". Be sure to install the 
