@@ -54,7 +54,7 @@ script, "./examples/segment_3d_particles/segment_3D_powder_particles.py".
 ## Installation 
 The development of IMPPY3D uses the 
 [Miniforge](https://github.com/conda-forge/miniforge) package manager
-(Anaconda will work as well). To utilize IMPPY3D, you will need to install
+(Conda will work as well). To utilize IMPPY3D, you will need to install
 additional Python libraries. A full list of these Python dependencies can be
 found in the "./dependencies/" folder via YML text files. Step-by-step
 instructions on setting up a suitable Python environment, for either a Windows
