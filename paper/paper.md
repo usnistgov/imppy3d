@@ -1,41 +1,39 @@
 ---
-title: >-
-    IMPPY3D: Image Processing in Python for 3D Image Stacks
-authors:
-  - name: Newell H. Moser
-    email: newell.moser@nist.gov
-    affiliation: [1]
-    orcid: 0000-0002-3346-6427
-    corresponding: true
-  - name: Alexander K. Landauer
-    orcid: 0000-0003-2863-039X
-    affiliation: [2]
-  - name: Orion L. Kafka
-    orcid: 0000-0003-2333-8154
-    affiliation: [1]
-affiliations:
-  - index: 1
-    name: Material Measurement Laboratory, National Institute of Standards and Technology, 325 Broadway, Boulder, CO, 80305, USA
-  - index: 2
-    name: Material Measurement Laboratory, National Institute of Standards and Technology, 100 Bureau Drive, Gaithersburg, 20899, MD, USA
-date: 2024-10-17
-bibliography: paper.bib
+title: 'IMPPY3D: Image Processing in Python for 3D Image Stacks'
 tags:
   - python
   - image processing
   - volumetric
   - computed tomography
   - shape characterization
+authors:
+  - name: Newell H. Moser
+    email: newell.moser@nist.gov
+    affiliation: 1
+    orcid: 0000-0002-3346-6427
+    corresponding: true
+  - name: Alexander K. Landauer
+    orcid: 0000-0003-2863-039X
+    affiliation: 2
+  - name: Orion L. Kafka
+    orcid: 0000-0003-2333-8154
+    affiliation: 1
+affiliations:
+  - name: Material Measurement Laboratory, National Institute of Standards and Technology, 325 Broadway, Boulder, CO, 80305, USA
+    index: 1
+  - name: Material Measurement Laboratory, National Institute of Standards and Technology, 100 Bureau Drive, Gaithersburg, 20899, MD, USA
+    index: 2
+date: 17 October 2024
+bibliography: paper.bib
 ---
-
 
 # Summary
 
 Image Processing in Python for 3D image stacks, or IMPPY3D, is a free and open-source software (FOSS) repository that simplifies post-processing and 3D shape characterization for grayscale image stacks, otherwise known as volumetric images, 3D images, or voxel models. While IMPPY3D, pronounced impee-three-dee, was originally created for post-processing image stacks generated from X-ray computed tomography (XCT) measurements, it can be applied generally in post-processing 2D and 3D images. IMPPY3D includes tools for segmenting volumetric images and characterizing the 3D shape of features or regions of interest. These functionalities have proven useful in 3D shape analysis of powder particles, porous polymers, concrete aggregates, internal pores/defects, and more (see the Research Applications section). IMPPY3D consists of a combination of original Python scripts, Cython extensions, and convenience wrappers for popular third-party libraries like SciKit-Image, OpenCV, and PyVista [@scikit-image; @opencv_library; @sullivan2019pyvista].
 
-Highlighted capabilities of IMPPY3D include: varying image processing parameters interactively, applying numerous 2D/3D image filters (e.g., blurring/sharpening, denoising, erosion/dilation), segmenting and labeling continuous 3D objects, precisely rotating and re-slicing an image stack in 3D, generating rotated bounding boxes fitted to voxelized features, converting image stacks into 3D voxel models, exporting 3D models as Visualization Toolkik (VTK) files for ParaView [@ayachit_paraview_2015], and converting voxel models into smooth mesh-based models. Additional information and example scripts can be found in the included ReadMe files within the IMPPY3D GitHub repository [@moser_imppy3d_2024]. As a visualized example, Figure \ref{img_xct_powder} demonstrates the high-level steps to characterize powder particles using IMPPY3D. This workflow is also similar to how pores can be visualized and characterized in metal-based additive manufacturing. Additional research applications for IMPPY3D are discussed in a later section.
+Highlighted capabilities of IMPPY3D include: varying image processing parameters interactively, applying numerous 2D/3D image filters (e.g., blurring/sharpening, denoising, erosion/dilation), segmenting and labeling continuous 3D objects, precisely rotating and re-slicing an image stack in 3D, generating rotated bounding boxes fitted to voxelized features, converting image stacks into 3D voxel models, exporting 3D models as Visualization Toolkik (VTK) files for ParaView [@ayachit_paraview_2015], and converting voxel models into smooth mesh-based models. Additional information and example scripts can be found in the included ReadMe files within the IMPPY3D GitHub repository [@moser_imppy3d_2024]. As a visualized example, Figure \autoref{img_xct_powder} demonstrates the high-level steps to characterize powder particles using IMPPY3D. This workflow is also similar to how pores can be visualized and characterized in metal-based additive manufacturing. Additional research applications for IMPPY3D are discussed in a later section.
 
-![X-ray computed tomography reconstructions of nickel-based powder particles suspended in cured epoxy. a) One reconstructed 2D image slice (out of 1009) illustrating the powder particles, and b) the same image after segmentation using a series of filtering and binarization techniques. c) A rendering of the interactive 3D model of the segmented particle volume image. d) Individual particles visualized for characterization based on shape, volume, and porosity. e) The ratio of spherical to non-spherical particles and a histogram plot showing the distribution in size of the particles. \label{img_xct_powder}](./joss_fig1_powder_segmentation_500dpi_v1.png)
+![X-ray computed tomography reconstructions of nickel-based powder particles suspended in cured epoxy. a) One reconstructed 2D image slice (out of 1009) illustrating the powder particles, and b) the same image after segmentation using a series of filtering and binarization techniques. c) A rendering of the interactive 3D model of the segmented particle volume image. d) Individual particles visualized for characterization based on shape, volume, and porosity. e) The ratio of spherical to non-spherical particles and a histogram plot showing the distribution in size of the particles. \label{img_xct_powder}](joss_fig1_powder_segmentation_500dpi_v1.png)
 
 
 # Statement of Need
@@ -62,9 +60,9 @@ IMPPY3D has been in development since 2021. During this period, the library has 
 
 To begin using IMPPY3D, a Python environment with the necessary dependencies must be installed. We have deployed the code using the open-source package manager "Mamba" from Miniforge (version 24.3.0) based on Python 3.10 [@noauthor_miniforge_2024]. The IMPPY3D GitHub repository [@moser_imppy3d_2024] contains a dependencies folder which provides environment files (.yml) and a "ReadMe.txt" file that explains how to install a new Python environment using these environment files. In addition to "Mamba" (or "Conda" for Anaconda users), there are also generic instructions on how to install the necessary dependencies using PIP. Currently, IMPPY3D has been tested to work on modern Windows and Linux machines for Python versions 3.9 and 3.10. For users to test the success of the installation of the Python environment, there are example scripts in the "examples" folder in the IMPPY3D GitHub repository. These examples are also documented in a "ReadMe.txt" file. 
 
-In summary, IMPPY3D is a library of tools designed to accelerate the post-processing of image stacks. The package does not include a graphical user-interface (GUI). Therefore, users are expected to write their own Python scripts that utilize the IMPPY3D library, and the provided examples serve as templates that illustrate how to use a wide range of the functionality available in IMPPY3D. Typical processing pipeline options in IMPPY3D is illustrated in Figure \ref{img_flow_chart}.
+In summary, IMPPY3D is a library of tools designed to accelerate the post-processing of image stacks. The package does not include a graphical user-interface (GUI). Therefore, users are expected to write their own Python scripts that utilize the IMPPY3D library, and the provided examples serve as templates that illustrate how to use a wide range of the functionality available in IMPPY3D. Typical processing pipeline options in IMPPY3D is illustrated in Figure \autoref{img_flow_chart}.
 
-![A high-level processing pipeline diagram illustrating typical steps and options available in IMPPY3D for 3D image stacks. \label{img_flow_chart}](./joss_fig2_workflow_500dpi_v4.png)
+![A high-level processing pipeline diagram illustrating typical steps and options available in IMPPY3D for 3D image stacks. \label{img_flow_chart}](joss_fig2_workflow_500dpi_v4.png)
 
 
 # Acknowledgements
