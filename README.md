@@ -1,4 +1,4 @@
-# IMPPY3D
+# IMPPY3D (v1.1)
 
 Image Processing in Python for 3D image stacks.
 
