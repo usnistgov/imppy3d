@@ -19,7 +19,7 @@ affiliations:
   - index: 2
     name: Material Measurement Laboratory, National Institute of Standards and Technology, 100 Bureau Drive, Gaithersburg, 20899, MD, USA
 date: 2024-10-17
-bibliography: paper_v6.bib
+bibliography: paper.bib
 tags:
   - python
   - image processing
