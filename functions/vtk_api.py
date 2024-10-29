@@ -477,7 +477,7 @@ def make_vtk_unstruct_grid_slow(img_arr_in):
 
 
 def make_vtk_unstruct_grid(img_arr_in, scale_spacing=1.0, 
-    all_voxels=False):
+    all_voxels=False, quiet_in=False):
     """
     This function converts an image sequence into an unstructured VTK
     voxel model. This function depends on a C-extension binary that
@@ -519,7 +519,10 @@ def make_vtk_unstruct_grid(img_arr_in, scale_spacing=1.0,
         with intensites greater than or equal to one. Consequently, 
         this function will return a pyvista.UnstructuredGrid object. Set
         this to True in order to return all of the pixels as voxels, 
-        in which case, a pyvista.StructuredGrid object is returned. 
+        in which case, a pyvista.StructuredGrid object is returned.
+
+    quiet_in: An optional boolean that is by default set to False. Set 
+        to True to prevent outputting any messages. 
 
     ---- RETURNED ----
     unstruct_grid: If all_voxels is False, a pyvista.UnstructuredGrid 
@@ -547,16 +550,22 @@ def make_vtk_unstruct_grid(img_arr_in, scale_spacing=1.0,
     n_cols = img_arr_in.shape[2]
 
     if all_voxels: # Without downsampling, this WILL kill your RAM
-        print("\nAttempting to construct the structured VTK file...")
+        if not quiet:
+            print("\nAttempting to construct the structured VTK file...")
+            
         unstruct_grid = make_vtk_uniform_grid(img_arr)
         unstruct_grid = unstruct_grid.cast_to_structured_grid()
-        print("  Success!")
+        
+        if not quiet:
+            print("  Success!")
 
     else:
         # Call my Cython C-extension. Set the second argument, "debug_flag",
         # to 1 (instead of 0) if you want the expected memory allocations to 
         # also be written to the terminal standard output.
-        print("\nAllocating memory for the VTK voxel data structure...")
+        if not quiet:
+            print("\nAllocating memory for the VTK voxel data structure...")
+        
         nd_coords, cell_conn, cell_vals = im3.get_voxel_info(img_arr, 0)
         num_cells = cell_conn.shape[0]
 
@@ -567,7 +576,9 @@ def make_vtk_unstruct_grid(img_arr_in, scale_spacing=1.0,
         vtk_ver_str = ''.join(c for c in vtk_ver_junk_str if c.isdigit())
         vtk_ver_num = int(vtk_ver_str[0])
 
-        print("\nAttempting to construct the unstructured VTK file...")
+        if not quiet:
+            print("\nAttempting to construct the unstructured VTK file...")
+        
         if vtk_ver_num >= 9: 
             # I don't have Version 9 of VTK, so this is untested
             # Using a PyVista example for this code sample:
@@ -596,5 +607,7 @@ def make_vtk_unstruct_grid(img_arr_in, scale_spacing=1.0,
         # Assign the intensity values to the cell_conn
         unstruct_grid.cell_data["values"] = cell_vals
 
-    print("  Success!")
+    if not quiet:
+        print("  Success!")
+
     return unstruct_grid
