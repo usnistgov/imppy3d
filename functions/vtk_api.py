@@ -549,10 +549,12 @@ def make_vtk_unstruct_grid(img_arr_in, scale_spacing=1.0,
     n_rows = img_arr_in.shape[1]
     n_cols = img_arr_in.shape[2]
 
+    quiet = quiet_in
+
     if all_voxels: # Without downsampling, this WILL kill your RAM
         if not quiet:
             print("\nAttempting to construct the structured VTK file...")
-            
+
         unstruct_grid = make_vtk_uniform_grid(img_arr)
         unstruct_grid = unstruct_grid.cast_to_structured_grid()
         
