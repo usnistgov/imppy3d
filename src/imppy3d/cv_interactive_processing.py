@@ -3,8 +3,8 @@ import numpy as np
 import cv2 as cv
 
 # Import local packages
-import cv_processing_wrappers as wrap
-import cv_driver_functions as drv
+from . import cv_processing_wrappers as wrap
+from . import cv_driver_functions as drv
 
 
 def do_nothing(x):
