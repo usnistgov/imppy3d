@@ -7,11 +7,7 @@ from skimage import morphology as morph
 from skimage.util import img_as_ubyte, img_as_float
 
 # Import local packages
-import ski_processing_wrappers as wrap
-import ski_interactive_processing as ifun
-
-import plt_wrappers as pwrap
-import matplotlib.pyplot as plt
+from . import ski_interactive_processing as ifun
 
 
 def interact_driver_thresholding(img_in, fltr_name_in):

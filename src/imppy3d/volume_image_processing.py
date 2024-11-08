@@ -9,12 +9,9 @@ from skimage.util import img_as_ubyte
 from skimage.util import img_as_uint
 from skimage.util import img_as_float32
 from skimage.util import img_as_float64
-import pyvista as pv
-import cv_driver_functions as drv
-import cython.bin.im3_processing as im3
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider
 
+from . import cv_driver_functions as drv
+from . import im3_processing as im3
         
 def pad_image_boundary(img_arr_in, cval_in=0, n_pad_in=1, quiet_in=False):
     """

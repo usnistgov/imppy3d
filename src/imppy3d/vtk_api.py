@@ -1,13 +1,13 @@
 import numpy as np
 from scipy import ndimage as ndim
 import vtk
-import cython.bin.im3_processing as im3
 import pyvista as pv
 from skimage import measure as meas
 from skimage.util import img_as_ubyte
 from skimage.util import img_as_float32
 
-import volume_image_processing as vol
+from . import im3_processing as im3
+from . import volume_image_processing as vol
 
 
 def make_vtk_uniform_grid(img_arr_in,  scale_spacing=1.0, 

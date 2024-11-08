@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import spatial as spt
 
-import volume_image_processing as vol
+from . import volume_image_processing as vol
 
 class BBox:
     """

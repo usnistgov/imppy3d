@@ -3,8 +3,8 @@ import numpy as np
 import cv2 as cv
 
 # Import local packages
-import cv_processing_wrappers as wrap
-import cv_interactive_processing as ifun
+from . import cv_processing_wrappers as wrap
+from . import cv_interactive_processing as ifun
 
 
 def interact_driver_blur(img_in, fltr_name_in):
