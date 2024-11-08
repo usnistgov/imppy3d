@@ -13,8 +13,8 @@ extensions = [
 setup(
     name='imppy3d',
     version='0.1.0',
-    author='TODO',  # FIXME
-    author_email='TODO',  # FIXME
+    author='Newell Moser',  # FIXME
+    author_email='newell.moser@nist.gov',  # FIXME
     description='IMPPY3D: A library for processing 3D image stacks',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
@@ -23,17 +23,18 @@ setup(
     package_dir={'': 'src'},
     include_package_data=True,
     install_requires=[
-        'numpy',
-        'scipy',
-        'matplotlib',
-        'scikit-image',
-        'opencv-python',
-        'vtk',
-        'meshio',
-        'imageio',
-        'imageio-ffmpeg',
-        'tifffile',
-        'imagecodecs',
+        'numpy=1.26.*',
+        'scipy=1.11.*',
+        'matplotlib=3.8.*',
+        'scikit-image=0.20.*',
+        'opencv-python=4.6.*',
+        'vtk=9.2.*',
+        'meshio=5.3.*',
+        'imageio>=2.22',
+        'imageio-ffmpeg>=0.4',
+        'pillow>=9',
+        'tifffile>=2022',
+        'imagecodecs>=2022.7',
     ],
     ext_modules=cythonize(
         extensions,
@@ -47,5 +48,5 @@ setup(
         "Operating System :: POSIX :: Linux",
         "Operating System :: Microsoft :: Windows",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.9',
 )
