@@ -1,5 +1,5 @@
-This is the "functions" directory which contains the definitions of the 
-functions which comprise the imppy3d library.
+This is the "src" directory which contains the definitions of the 
+functions which comprise the imppy3d library (i.e., source code).
 
 In addition to Python definitions, imppy3d also has custom C-extensions 
 based on the Cython library. These are located in the "./cython" folder
