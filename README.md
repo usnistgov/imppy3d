@@ -52,17 +52,18 @@ script, "./examples/segment_3d_particles/segment_3D_powder_particles.py".
 
 
 ## Installation 
-The development of IMPPY3D uses the [Mamba](https://github.com/conda-forge/miniforge) package manager for handling
-dependencies, similar to the popular Conda package manager. We recommend
-creating a new Python 3.10 environment (in Mamba/Conda) prior to installing
-IMPPY3D. The easiest method of installing IMPPY3D is through `pip`. Wheel files
-(.whl) for `pip` can be found either on PyPi or in the IMPPY3D repository
-(for Windows or Linux machines). Alternatively, IMPPY3D can be compiled using
-setuptools. The following subsections go into more details for each of these
-installation cases.
+The development of IMPPY3D uses the [Mamba](https://github.com/conda-forge/miniforge) 
+package manager for handling dependencies, similar to the popular Conda package
+manager. We recommend creating a new Python 3.10 environment (in Mamba/Conda)
+prior to installing IMPPY3D. The easiest method of installing IMPPY3D is
+through `pip`. Wheel files(.whl) for `pip` can be found either on PyPi or in
+the IMPPY3D repository(for Windows or Linux machines). Alternatively, IMPPY3D
+can be compiled using setuptools. The following subsections go into more
+details for each of these installation cases.
 
 ### Installing From PyPi
-Description
+The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/). 
+
 
 ### Installing Using Pip with Local Binary Files
 The binary .whl files are located in the folder, "./dist/". The name of the .whl
@@ -84,16 +85,18 @@ IMPPY3D, open a terminal with your Python environment active and type,
 
 This command will use the setuptools library to compile IMPPY3D into a wheel
 (.whl). Upon successful completion, the binary .whl file will be located in the
-folder, "./dist/". With the new .whl file created, simply follow the
-instructions above stated about installing IMPPY3D using `pip` and a local
-binary file.
+folder, "./dist/". Additionally, the above command will create source
+distribution, which is an alternative installation file to the binary
+distribution. With the new .whl file created, simply follow the instructions
+above stated about installing IMPPY3D using `pip` and a local binary file.
 
 It is important to ensure that your Python environment also has the appropriate
 environment variables set for your C compiler. If setuptools cannot find your
 compiler, then compilation of IMPPY3D will fail. Furthermore, the same
 C-compiler as that which was used to compile the specific Python version you
 are using should also be used to create the IMPPY3D C extensions. For Windows
-users, see the documentation, [https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
+users, see the documentation, 
+[https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
 
 ## Usage Examples 
 A number of example Python scripts are provided in the "./examples/" folder to

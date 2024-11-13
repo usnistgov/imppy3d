@@ -7,6 +7,14 @@ Cython extensions will not work. In which case, the Cython extensions must be
 compiled for your operating system and placed in the "./functions/cython/bin"
 folder.
 
+The preferred method to install IMPPY3D is using pip. However, during 
+development of IMPPY3D, custom Mamba/Conda Python environments were used to
+handle dependencies. The directions given here explain how to create one of 
+these environments. Note, these instructions only install the required
+dependencies. To use IMPPY3D, you will still require the precompiled Cython
+extensions (saved as .pyd files) appropriate for your operating system. Ensure
+that the .pyd files are present in the folder, "./src/imppy3d/"
+
 
 ---- Anaconda/Miniforge Documentation ----
 
