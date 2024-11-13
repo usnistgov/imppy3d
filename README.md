@@ -62,8 +62,10 @@ can be compiled using setuptools. The following subsections go into more
 details for each of these installation cases.
 
 ### Installing From PyPi
-The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/). 
+The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
+Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
+`pip install imppy3d`
 
 ### Installing Using Pip with Local Binary Files
 The binary .whl files are located in the folder, "./dist/". The name of the .whl
