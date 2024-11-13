@@ -12,20 +12,13 @@ model and displayed to the user.
 """
 
 # Import external dependencies
-import sys
 import numpy as np
-import cv2 as cv
 from skimage import measure as meas
-from skimage.util import img_as_bool, img_as_ubyte
 import pyvista as pv
-#from pyvistaqt import BackgroundPlotter
 
-# Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import import_export as imex
-import volume_image_processing as vol
-import vtk_api as vapi
+import imppy3d.import_export as imex
+import imppy3d.volume_image_processing as vol
+import imppy3d.vtk_api as vapi
 
 
 # -------- CREATE A FULLY DENSE IMAGE SEQUENCE --------

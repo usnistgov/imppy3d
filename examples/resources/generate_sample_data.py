@@ -9,7 +9,6 @@ scripts. This synthetic data are saved as three image stacks within
 the directories of this folder that this script is saved in.
 """
 
-import sys
 import numpy as np
 from skimage import draw as draw
 from skimage import io as io
@@ -17,13 +16,76 @@ from skimage import measure as meas
 from skimage import filters as filt
 from skimage.util import img_as_ubyte, img_as_float, random_noise
 
-# Import local packages. If the "functions" folder is not in the same
-# directory as this script, then you need to add the directory path to
-# the system search PATH variable. 
-sys.path.insert(1, '../../functions')
-import import_export as imex
-import volume_image_processing as vol
+# Import local packages.
+import imppy3d.import_export as imex
+import imppy3d.volume_image_processing as vol
 
+
+########## Mock Additively Manufactured Metal Cube With Pores ##########
+
+print(f"\nBuilding the additively manufactured metal cube image sequence...")
+
+num_am_pores = 64
+
+v_axis_min = 3
+v_axis_max = 5
+v_axis_mid = (v_axis_max + v_axis_min)/2.0
+v_sigma = (v_axis_max - v_axis_mid)/3.0
+
+# Statistics for the size of voids in some particles (voids will be ellipsoids)
+v_ax_a = np.random.default_rng().normal(loc=v_axis_mid, scale=v_sigma, size=num_am_pores)
+v_ax_b = np.random.default_rng().normal(loc=v_axis_mid, scale=v_sigma, size=num_am_pores)
+v_ax_c = np.random.default_rng().normal(loc=v_axis_mid, scale=v_sigma, size=num_am_pores)
+v_ax_a = np.absolute(v_ax_a)
+v_ax_b = np.absolute(v_ax_b)
+v_ax_c = np.absolute(v_ax_c)
+
+img_arr = np.zeros((256, 256, 256), dtype=np.uint8)
+img_arr_shape = img_arr.shape
+
+# Fill in a cubic region of white pixels representing the metal
+metal_ii_lower_bound = 32
+metal_ii_upper_bound = 256 - 32
+img_arr[metal_ii_lower_bound:metal_ii_upper_bound,
+        metal_ii_lower_bound:metal_ii_upper_bound,
+        metal_ii_lower_bound:metal_ii_upper_bound] = 255
+
+for m in range(num_am_pores):
+
+    cur_a = v_ax_a[m]
+    cur_b = v_ax_b[m]
+    cur_c = v_ax_c[m]
+
+    img_void = draw.ellipsoid(cur_a, cur_b, cur_c)
+    img_void = img_as_ubyte(img_void)
+    void_shape = img_void.shape
+    void_cent_ii = np.floor(np.array(void_shape)/2)
+
+    coord_max_i = (np.round(img_arr_shape[0] - void_shape[0] - 32)).astype(np.int32)
+    coord_max_j = (np.round(img_arr_shape[1] - void_shape[1] - 32)).astype(np.int32)
+    coord_max_k = (np.round(img_arr_shape[2] - void_shape[2] - 32)).astype(np.int32)
+
+    coord_i = np.random.randint(32, high=coord_max_i)
+    coord_j = np.random.randint(32, high=coord_max_j)
+    coord_k = np.random.randint(32, high=coord_max_k)
+
+    img_arr_mask = np.zeros(img_arr_shape, dtype=np.uint8)
+
+    img_arr_mask[coord_i:coord_i+void_shape[0], \
+                coord_j:coord_j+void_shape[1], \
+                coord_k:coord_k+void_shape[2]] = img_void
+
+    img_arr[img_arr_mask > 0] = 0
+
+    if ((m+1)%10) == 0:
+        print(f"  Synthetically generated {m+1}/{num_am_pores} voids...")
+
+print(f"  Synthetically generated {num_am_pores}/{num_am_pores} voids...")
+
+save_path_out = "./porous_metal/"
+file_name_out = "metal_am.tif"
+
+imex.save_image_seq(img_arr, save_path_out, file_name_out, compression=True)
 
 
 ########## Mock Particles ##########
@@ -49,6 +111,7 @@ p_sigma = (p_axis_max - p_axis_mid)/3.0
 v_axis_mid = (v_axis_max + v_axis_min)/2.0
 v_sigma = (v_axis_max - v_axis_mid)/3.0
 
+# Particle size statistics (particles will be ellipsoids)
 p_ax_a = np.random.default_rng().normal(loc=p_axis_mid, scale=p_sigma, size=num_particles)
 p_ax_b = np.random.default_rng().normal(loc=p_axis_mid, scale=p_sigma, size=num_particles)
 p_ax_c = np.random.default_rng().normal(loc=p_axis_mid, scale=p_sigma, size=num_particles)
@@ -56,6 +119,7 @@ p_ax_a = np.absolute(p_ax_a)
 p_ax_b = np.absolute(p_ax_b)
 p_ax_c = np.absolute(p_ax_c)
 
+# Statistics for the size of voids in some particles (voids will be ellipsoids)
 v_ax_a = np.random.default_rng().normal(loc=v_axis_mid, scale=v_sigma, size=num_particles)
 v_ax_b = np.random.default_rng().normal(loc=v_axis_mid, scale=v_sigma, size=num_particles)
 v_ax_c = np.random.default_rng().normal(loc=v_axis_mid, scale=v_sigma, size=num_particles)
@@ -63,6 +127,7 @@ v_ax_a = np.absolute(v_ax_a)
 v_ax_b = np.absolute(v_ax_b)
 v_ax_c = np.absolute(v_ax_c)
 
+# Statistics for whether a particle should contain a void
 v_bool_arr = np.random.randint(0, high=5, size=num_particles)
 
 img_arr = np.zeros((256, 256, 256), dtype=np.uint8)

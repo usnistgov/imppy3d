@@ -17,26 +17,20 @@ also be opened in ParaView and compared to the voxel model.
 """
 
 # Import external dependencies
-import sys, csv
+import csv
 import numpy as np
-import cv2 as cv
 from skimage import measure as meas
 from skimage import morphology as morph
 from skimage import restoration as rest
 from skimage import segmentation as seg
 from skimage.util import img_as_float, img_as_ubyte
-import matplotlib.pyplot as plt
 
 # Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import import_export as imex
-import cv_processing_wrappers as cwrap
-import cv_driver_functions as cdrv
-import volume_image_processing as vol
-import plt_wrappers as pwrap
-import bounding_box as box
-import vtk_api as vapi
+import imppy3d.import_export as imex
+import imppy3d.cv_processing_wrappers as cwrap
+import imppy3d.volume_image_processing as vol
+import imppy3d.bounding_box as box
+import imppy3d.vtk_api as vapi
 
 
 # -------- IMPORT IMAGE SEQUENCE --------

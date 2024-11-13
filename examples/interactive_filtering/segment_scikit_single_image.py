@@ -12,24 +12,17 @@ post-processing techniques via OpenCV.
 """
 
 # Import external dependencies
-import sys, os
+import os
 import numpy as np
-import cv2 as cv
-import skimage.feature as feature
-from skimage import morphology as morph
-from skimage import filters as sfilt
 from skimage.util import img_as_ubyte, img_as_float, img_as_bool
 from skimage.util import invert as ski_invert
 from matplotlib import pyplot as plt
-from matplotlib.widgets import TextBox, Slider, Button, CheckButtons
 
 # Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import import_export as imex
-import plt_wrappers as pwrap
-import ski_driver_functions as sdrv
-import cv_processing_wrappers as cwrap
+import imppy3d.import_export as imex
+import imppy3d.plt_wrappers as pwrap
+import imppy3d.ski_driver_functions as sdrv
+import imppy3d.cv_processing_wrappers as cwrap
 
 # Set constants related to plotting (for MatPlotLib)
 SMALL_SIZE = 10
@@ -118,19 +111,9 @@ block_sz = 23        # int (odd)
 thresh_offset = -5.0   # float (positive or negative)
 # ===== END INPUTS ===== 
 
-block_sz = int(block_sz)
-if block_sz % 2 == 0:
-    block_sz = block_sz + 1
-
 print(f"\nApplying adaptive thresholding...")
-img_thresh = sfilt.threshold_local(img2, block_size=block_sz, 
-       method='gaussian', offset=thresh_offset)
-
-img2 = img_as_ubyte(img2 > img_thresh)
-
-print(f"\nSuccessfully applied adaptive thresholding:")
-print(f"    Block size: {block_sz}")
-print(f"    Intensity offset: {thresh_offset}")
+filt_params = ["adaptive_threshold", block_sz, thresh_offset] 
+img2 = sdrv.apply_driver_thresholding(img2, filt_params)
 
 
 # -------- (ALTERNATIVE) HYSTERESIS THRESHOLDING --------
@@ -197,25 +180,18 @@ min_feat_sz = 9   # int
 # ===== END INPUTS ===== 
 
 print(f"\nRemoving small holes and pixel islands...")
-img_bool = img_as_bool(img2)
-img_temp = morph.remove_small_holes(img_bool, int(max_hole_sz), connectivity=1)
-img2 = morph.remove_small_objects(img_temp, int(min_feat_sz), connectivity=1)
-img2 = img_as_ubyte(img2)
-
-print(f"\nSuccessfully filled in holes:")
-print(f"    Maximum hole (area) size: {max_hole_sz} pixels")
-
-print(f"\nSuccessfully deleted features:")
-print(f"    Minimum feature (area) size: {min_feat_sz} pixels")
+filt_params = ["scikit", max_hole_sz, min_feat_sz]
+img2 = sdrv.apply_driver_del_features(img2, filt_params)
 
 
 # -------- CAN ALSO CONSIDER SKELETONIZE --------
+# ===== START INPUTS ===== 
+apply_skel = True  # int 
+# ===== END INPUTS ===== 
 
 print(f"\nComputing the skeleton of the binary image...")
-img_bool = img_as_bool(img2)
-img2 = morph.skeletonize(img_bool)
-img2 = img_as_ubyte(img2)
-print(f"  Successfully computed the skeleton of the binary image.")
+filt_params = ["scikit", apply_skel]
+img2 = sdrv.apply_driver_skeletonize(img2, filt_params)
 
 
 # -------- CALCULATE RELATIVE DENSITY --------

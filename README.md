@@ -52,21 +52,35 @@ script, "./examples/segment_3d_particles/segment_3D_powder_particles.py".
 
 
 ## Installation 
-The development of IMPPY3D uses the 
-[Miniforge](https://github.com/conda-forge/miniforge) package manager
-(Conda will work as well). To utilize IMPPY3D, you will need to install
-additional Python libraries. A full list of these Python dependencies can be
-found in the "./dependencies/" folder via YML text files. Step-by-step
-instructions on setting up a suitable Python environment, for either a Windows
-or Linux environment, can also be found in the "./dependencies/" folder.
-Generic installation files that utilize PIP are also provided for installing
-IMPPY3D on operating systems other than Windows or Linux.
+The development of IMPPY3D uses the [Mamba]
+(https://github.com/conda-forge/miniforge) package manager for handling
+dependencies, similar to the popular Conda package manager. We recommend
+creating a new Python 3.10 environment (in Mamba/Conda) prior to installing
+IMPPY3D. The easiest method of installing IMPPY3D is through `pip`. Wheel files
+(.whl) for `pip` can be found either on PyPi or in the IMPPY3D repository
+(for Windows or Linux machines). Alternatively, IMPPY3D can be compiled using
+setuptools. The following subsections go into more details for each of these
+installation cases.
+
+### Installing From PyPi
+Description
+
+### Installing Using Pip with Local Binary Files
+The binary .whl files are located in folder, "./dist/". The .whl files will contain information about the Python version, IMPPY3D version number, and operating system. Currently, precompiled .whl files are only available for Windows and Linux operating systems using Python 3.10. To install IMPPY3D using one of these precompiled .whl files, choose the appropriate .whl for your operating system and use the `pip` command,
+
+`pip install /path/to/file.whl`
+
+### Compiling IMPPY3D
+Description
 
 ## Usage Examples 
-A number of example Python scripts are provided in
-the "./examples/" folder to help facilitate rapid development of new
-projects. As we continue to use IMPPY3D in new applications, we aim to
-continue to provide new example scripts in this folder. 
+A number of example Python scripts are provided in the "./examples/" folder to
+help facilitate rapid development of new projects. As we continue to use
+IMPPY3D in new applications, we aim to continue to provide new example scripts
+in this folder. 
+
+To confirm that IMPPY3D was successfully installed, we recommend running the
+example, "./examples/calc_metrics_pores/".
 
 ## Roadmap
 * Convert the comment blocks in function definitions to a common standard for 

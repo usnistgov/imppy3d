@@ -1,30 +1,13 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import cv2 as cv
-import sys
-import vtk
-import pyvista as pv
 import matplotlib.pyplot as plt
-#import interactive_3d_vol_viewer as vol_view
-
-from scipy import ndimage as ndim
-from scipy.spatial import transform as trfm
-from skimage import transform as tran
-from skimage import measure as meas
-from skimage import segmentation as seg
+import interactive_3d_vol_viewer as vol_view
 from skimage.feature import match_template
-from skimage.util import img_as_ubyte
-from skimage.util import img_as_float32
-from skimage.util import img_as_float64
 
-# Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions')
-import import_export as imex
-import cv_processing_wrappers as wrap
-import cv_driver_functions as drv
-import volume_image_processing as vol
-import cv_interactive_processing as intprc
+import imppy3d.import_export as imex
+import imppy3d.cv_processing_wrappers as wrap
+import imppy3d.cv_interactive_processing as intprc
 
 eps_float = 1e-12
 

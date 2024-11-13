@@ -7,14 +7,354 @@ from skimage import restoration as rest
 from skimage import segmentation as seg
 from skimage import filters as filt
 from skimage import morphology as morph
-from skimage.util import img_as_ubyte, img_as_float
+import skimage.feature as sfeature
+from skimage.util import img_as_bool, img_as_ubyte, img_as_float
 
 
-def interact_gaussian_blur(img_in):
+def interact_skeletonize(img_in):
     """
-    Placeholder to be completed later
+    Binarizes an image by thinning connected pixels until they are just
+    one pixel wide, also known as skeletonization. The implementation
+    is done by SciKit-Image: skimage.morphology.skeletonize(). This is
+    an interactive function that enables the user to change the
+    parameters of the filter and see the results, thanks to
+    the "widgets" available in Matplotlib.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a binary image. It is assumed that the
+        image is already segmented and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    ---- RETURNED ---- 
+    [[img_out], [fltr_params]]: Returns a list containing the resultant
+        image and the parameters used for the filter. img_out is a
+        binarized image containing the single-pixel-wide skeleton as
+        white pixels. fltr_params is also a list, which contains the
+        final parameters used during the interactive session. The first
+        item is the string name of the filter that was used, in this
+        case "scikit". For this function, the [fltr_params] list
+        contains:
+
+            ["scikit", apply_skel]
+
+                apply_skel: A boolean which applies the skeletonize 
+                    algorithm if True, and does not modify the image
+                    if False.
+
+    ---- SIDE EFFECTS ---- 
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output. 
     """
-    pass
+
+    img_0 = img_in.copy()
+
+    # Initial values
+    apply_skel = True
+
+    img_bool = img_as_bool(img_0)
+    img_temp = morph.skeletonize(img_bool)
+    img_out = img_as_ubyte(img_temp)
+
+    # Create a figure
+    fig_size = (9,9)
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(fig_size[0], fig_size[1])
+    ax.set_aspect('equal')
+
+    # Show the image and save the "matplotlib.image.AxesImage"
+    # object for updating the figure later.
+    img_obj = ax.imshow(img_out, cmap='gray', vmin=0, vmax=255)
+    ax.set_xlabel("X Pixel Number")
+    ax.set_ylabel("Y Pixel Number")
+
+    plt.subplots_adjust(bottom=0.25)
+
+    apply_skel_ax = fig.add_axes([0.12, 0.03, 0.25, 0.15])
+    apply_skel_radio = RadioButtons(ax=apply_skel_ax, labels=[" True: skeletonize",
+        " False: skeletonize"], active=0)
+
+    update_ax = fig.add_axes([0.62, 0.07, 0.25, 0.05])
+    update_button = Button(update_ax, 'Update')
+
+    def skeletonize_update(event):
+        nonlocal apply_skel
+        nonlocal img_out
+
+        if apply_skel_radio.value_selected == " True: skeletonize":
+            apply_skel = True
+        else:
+            apply_skel = False
+
+        if apply_skel:
+            img_bool = img_as_bool(img_0)
+            img_temp = morph.skeletonize(img_bool)
+            img_out = img_as_ubyte(img_temp)
+
+        else:
+            img_out = img_0
+        
+        # Update the image
+        img_obj.set(data=img_out)
+        fig.canvas.draw()
+
+    # Call the update function when the 'update' button is clicked
+    update_button.on_clicked(skeletonize_update)
+
+    plt.show()
+
+    # Save final filter parameters
+    fltr_params = ["scikit", apply_skel]
+
+    return [img_out, fltr_params]
+
+
+def interact_del_features(img_in):
+    """
+    Interactively delete features, and/or fill holes, of a specified
+    size (i.e., area). This is accomplished using SkiKit-Image:
+    skimage.morphology.remove_small_holes() and
+    skimage.morphology.remove_small_objects(). This is an interactive
+    function that enables the user to change the parameters of the
+    filter and see the results, thanks to the "widgets" available in
+    Matplotlib.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a binary image. It is assumed that the
+        image is already segmented and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    ---- RETURNED ---- 
+    [[img_out], [fltr_params]]: Returns a list containing the resultant
+        image and the parameters used for the filter. img_out is a
+        binarized image with holes filled in and small features
+        removed. fltr_params is also a list, which contains the final
+        parameters used during the interactive session. The first item
+        is the string name of the filter that was used, in this
+        case "scikit". For this function, the [fltr_params] list
+        contains:
+
+            ["scikit", max_hole_sz, min_feat_sz]
+
+                max_hole_sz: The maximum area, in pixels, of a 
+                    contiguous hole that will be filled. 1-connectivity
+                    is assumed, and this should be an integer.
+
+                min_feat_sz: The smallest allowable object size, in
+                    pixels, assuming 1-connectivity. This should be an
+                    integer.
+
+    ---- SIDE EFFECTS ---- 
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output. 
+    """
+
+    img_0 = img_in.copy()
+
+    # Initial values
+    min_feat_sz = 3
+    max_hole_sz = 9 
+
+    img_bool = img_as_bool(img_0)
+    img_temp = morph.remove_small_holes(img_bool, max_hole_sz, connectivity=1)
+    img_out = morph.remove_small_objects(img_temp, min_feat_sz, connectivity=1)
+    img_out = img_as_ubyte(img_out)
+
+    # Create a figure
+    fig_size = (9,9)
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(fig_size[0], fig_size[1])
+    ax.set_aspect('equal')
+
+    # Show the image and save the "matplotlib.image.AxesImage"
+    # object for updating the figure later.
+    img_obj = ax.imshow(img_out, cmap='gray', vmin=0, vmax=255)
+    ax.set_xlabel("X Pixel Number")
+    ax.set_ylabel("Y Pixel Number")
+
+    plt.subplots_adjust(bottom=0.35)
+
+    min_feat_ax = fig.add_axes([0.45, 0.20, 0.15, 0.06])
+    min_feat_txt_box = TextBox(ax=min_feat_ax, label='Min Feature Size to Delete (Pixels)  ', 
+        initial=str(min_feat_sz), textalignment='center')
+
+    max_area_ax = fig.add_axes([0.45, 0.11, 0.15, 0.06])
+    max_area_txt_box = TextBox(ax=max_area_ax, label='Max Area of Holes to Fill (Pixels)  ', 
+        initial=str(max_hole_sz), textalignment='center')
+
+    update_ax = plt.axes([0.25, 0.03, 0.5, 0.05])
+    update_button = Button(update_ax, 'Update')
+
+    def del_features_update(event):
+        nonlocal min_feat_sz
+        nonlocal max_hole_sz
+        nonlocal img_out
+
+        # Initial values
+        min_feat_sz = int(min_feat_txt_box.text)
+        max_hole_sz = int(max_area_txt_box.text)
+
+        img_bool = img_as_bool(img_0)
+        img_temp = morph.remove_small_holes(img_bool, max_hole_sz, connectivity=1)
+        img_out = morph.remove_small_objects(img_temp, min_feat_sz, connectivity=1)
+        img_out = img_as_ubyte(img_out)
+
+        # Update the image
+        img_obj.set(data=img_out)
+        fig.canvas.draw()
+
+    # Call the update function when the 'update' button is clicked
+    update_button.on_clicked(del_features_update)
+
+    plt.show()
+
+    # Save final filter parameters
+    fltr_params = ["scikit", max_hole_sz, min_feat_sz]
+
+    return [img_out, fltr_params]
+
+
+def interact_canny_edge(img_in):
+    """
+    Enhances the edges of an image using the Canny edge filter,
+    implemented by SciKit-Image. This is an interactive function that
+    enables the user to change the parameters of the filter and see the
+    results, thanks to the "widgets" available in Matplotlib.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a grayscale image. It is assumed that the
+        image is already grayscale and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    ---- RETURNED ---- 
+    [[img_out], [mask_out], [fltr_params]]: Returns a list containing 
+        the resultant image and the parameters used for the filter.
+        img_out is a edge-enhanced image in the same format as img_in.
+        mask_out is a binary image where white pixels represent the
+        edges found by the Canny algorithm. fltr_params is also a list,
+        which contains the final parameters used during the interactive
+        session. The first item is the string name of the filter that
+        was used, in this case "canny". For this function, the
+        [fltr_params] list contains:
+
+            ["canny", sigma_out, low_thresh_out, high_thresh_out]
+
+                sigma_out: Standard deviation of the Gaussian filter, 
+                    which should be a float.
+
+                low_thresh_out: Lower bound for hysteresis thresholding
+                    (linking edges), which should be a float.
+
+                high_thresh_out: Upper bound for hysteresis thresholding
+                    (linking edges), which should be a float.
+
+    ---- SIDE EFFECTS ---- 
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output. 
+    """
+
+    img_0 = img_in.copy()
+
+    # Initial values for the filter
+    sigma_0 = 2.0
+    low_thresh_0 = 0.1*255
+    high_thresh_0 = 0.2*255
+
+    img_mask_0 = sfeature.canny(img_0, sigma=sigma_0, 
+        low_threshold=low_thresh_0, high_threshold=high_thresh_0)
+
+    img_temp = img_0.copy()
+    img_temp[img_mask_0] = img_0[img_mask_0]/2
+
+    # Global variables (within this function) that will be returned. 
+    # Initialize these to the starting values for now.
+    sigma_out = sigma_0
+    low_thresh_out = low_thresh_0
+    high_thresh_out = high_thresh_0
+    img_out = img_temp
+    mask_out = img_as_ubyte(img_mask_0)
+
+    # Create a figure
+    fig_size = (9,9)
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(fig_size[0], fig_size[1])
+    ax.set_aspect('equal')
+
+    # Show the image and save the "matplotlib.image.AxesImage"
+    # object for updating the figure later.
+    img_obj = ax.imshow(img_out, cmap='gray', vmin=0, vmax=255)
+    ax.set_xlabel("X Pixel Number")
+    ax.set_ylabel("Y Pixel Number")
+
+    plt.subplots_adjust(bottom=0.26)
+
+    # Create new axes objects for each button/slider/text widget
+    # 4-tuple of floats rect = [left, bottom, width, height]. A new axes 
+    # is added with dimensions rect in normalized (0, 1) units using 
+    # add_axes on the current figure.
+    sigma_ax = fig.add_axes([0.1, 0.11, 0.15, 0.06])
+    sigma_text_box = TextBox(ax=sigma_ax, label='Sigma  ', 
+        initial=str(sigma_0), textalignment='center')
+
+    low_thresh_ax = fig.add_axes([0.45, 0.11, 0.15, 0.06])
+    low_thresh_text_box = TextBox(ax=low_thresh_ax, label='Low Threshold  ', 
+        initial=str(low_thresh_0), textalignment='center')
+
+    high_thresh_ax = fig.add_axes([0.8, 0.11, 0.15, 0.06])
+    high_thresh_text_box = TextBox(ax=high_thresh_ax, label='High Threshold  ', 
+        initial=str(high_thresh_0), textalignment='center')
+
+    update_ax = plt.axes([0.25, 0.03, 0.5, 0.05])
+    update_button = Button(update_ax, 'Update')
+
+    # Update the figure anytime the 'update' button is clicked
+    def canny_edge_update(event):
+        # Use the new Python keyword 'nonlocal' to gain access and 
+        # update these variables from within this scope.
+        nonlocal sigma_out
+        nonlocal low_thresh_out
+        nonlocal high_thresh_out
+        nonlocal img_out
+        nonlocal mask_out
+
+        # The GUI widgets are defined in a higher-level scope, so
+        # they can be accessed directly within this interior function 
+        sigma_out = float(sigma_text_box.text)
+        low_thresh_out = float(low_thresh_text_box.text)
+        high_thresh_out = float(high_thresh_text_box.text)
+
+        img_mask = sfeature.canny(img_0, sigma=sigma_out, 
+            low_threshold=low_thresh_out, high_threshold=high_thresh_out)
+
+        mask_out = img_as_ubyte(img_mask)
+        img_out = img_0.copy()
+        img_out[img_mask] = img_0[img_mask]/2
+
+        # Update the image
+        img_obj.set(data=img_out)
+        fig.canvas.draw()
+
+    # Call the update function when the 'update' button is clicked
+    update_button.on_clicked(canny_edge_update)
+
+    plt.show()
+
+    # Save final filter parameters
+    fltr_params = ["canny", sigma_out, low_thresh_out, high_thresh_out]
+
+    return [img_out, mask_out, fltr_params]
+
 
 
 def interact_unsharp_mask(img_in):
@@ -24,13 +364,13 @@ def interact_unsharp_mask(img_in):
     that enables the user to change the parameters of the filter and see
     the results, thanks to the "widgets" available in Matplotlib.
 
-     ---- INPUT ARGUMENTS ---- 
+    ---- INPUT ARGUMENTS ---- 
     [img_in]: Numpy array for a grayscale image. It is assumed that the
         image is already grayscale and of type uint8. The array
         should thus be 2D, where each value represents the intensity for
         each corresponding pixel.
 
-     ---- RETURNED ---- 
+    ---- RETURNED ---- 
     [[img_out], [fltr_params]]: Returns a list containing the resultant 
         image and the parameters used for the filter. img_out is a
         sharpened image in the same format as img_in. fltr_params is
@@ -49,7 +389,7 @@ def interact_unsharp_mask(img_in):
                     with this factor, which can be a negative or 
                     positive float.
 
-     ---- SIDE EFFECTS ---- 
+    ---- SIDE EFFECTS ---- 
     Function input arguments are not altered. Nothing is written to the 
     hard drive. This function is a read-only function. It does pop-up
     a new window that visualizes the provided image. Strings are printed
@@ -119,6 +459,7 @@ def interact_unsharp_mask(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     update_button.on_clicked(unsharp_mask_update)
@@ -127,6 +468,205 @@ def interact_unsharp_mask(img_in):
 
     # Save final filter parameters
     fltr_params = ["unsharp_mask", radius_out, amount_out]
+
+    return [img_out, fltr_params]
+
+
+def interact_global_thresholding(img_in):
+    """
+    Applies a simple threshold to a grayscale image resulting in a
+    binary image. One grayscale intensity is used globally to threshold
+    the entire image. The initially chosen threshold value is chosen
+    based on the Otsu algorithm. This is an interactive function that
+    enables the user to change the parameters of the filter and see the
+    results, thanks to the "widgets" available in Matplotlib.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a grayscale image. It is assumed that the
+        image is already grayscale and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    ---- RETURNED ----
+    [[img_out], [fltr_params]]: Returns a list containing the resultant
+        image and the parameters used for the filter. img_out is a now
+        binary image in the same format as img_in (i.e., pixels are
+        either black or white). fltr_params is also a list, which
+        contains the final parameters used during the interactive
+        session. The first item is the string name of the filter that
+        was used, in this case "global_threshold". For this function,
+        the [fltr_params] list contains:
+
+            ["global_threshold", global_thresh]
+
+                global_thresh: A grayscale intensity to use as a 
+                    criterion for thresholding. Values greater than 
+                    this threshold will become white. Values less than
+                    this threshold will become black.
+
+    ---- SIDE EFFECTS ---- 
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output. 
+    """
+
+    img_0 = img_in.copy()
+
+    # Initial values
+    otsu_thresh = filt.threshold_otsu(img_0)
+    global_thresh = otsu_thresh
+
+    img_out = img_as_ubyte(img_0 > global_thresh)
+
+    # Create a figure
+    fig_size = (9,9)
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(fig_size[0], fig_size[1])
+    ax.set_aspect('equal')
+
+    # Show the image and save the "matplotlib.image.AxesImage"
+    # object for updating the figure later.
+    img_obj = ax.imshow(img_out, cmap='gray', vmin=0, vmax=255)
+    ax.set_xlabel("X Pixel Number")
+    ax.set_ylabel("Y Pixel Number")
+
+    plt.subplots_adjust(bottom=0.15)
+
+    global_thresh_ax = fig.add_axes([0.30, 0.07, 0.15, 0.06])
+    global_thresh_txt_box = TextBox(ax=global_thresh_ax, label='Global Threshold  ', 
+        initial=str(global_thresh), textalignment='center')
+
+    update_ax = plt.axes([0.60, 0.07, 0.30, 0.05])
+    update_button = Button(update_ax, 'Update')
+
+    def global_threshold_update(event):
+        nonlocal global_thresh
+
+        global_thresh = float(global_thresh_txt_box.text)
+        img_out = img_as_ubyte(img_0 > global_thresh)
+
+        # Update the image
+        img_obj.set(data=img_out)
+        fig.canvas.draw()
+
+    # Call the update function when the 'update' button is clicked
+    update_button.on_clicked(global_threshold_update)
+
+    plt.show()
+
+    # Save final filter parameters
+    fltr_params = ["global_threshold", global_thresh]
+
+    return [img_out, fltr_params]
+
+
+def interact_adaptive_thresholding(img_in):
+    """
+    Binarizes the image using the adaptive thresholding algorithm
+    implemented by SciKit-Image (also called local thresholding). This
+    is an interactive function that enables the user to change the
+    parameters of the filter and see the results, thanks to
+    the "widgets" available in Matplotlib. 
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a grayscale image. It is assumed that the
+        image is already grayscale and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+     ---- RETURNED ---- 
+    [[img_out], [fltr_params]]: Returns a list containing the resultant 
+        image and the parameters used for the filter. img_out is a
+        binarized image in the same format as img_in (i.e., only black
+        and white pixels). fltr_params is also a list, which contains
+        the final parameters used during the interactive session. The
+        first item is the string name of the filter that was used, in
+        this case "adaptive_threshold". For this function, the
+        [fltr_params] list contains:
+            
+            ["adaptive_threshold", radius_out, amount_out]
+
+                block_sz: Odd size of pixel neighborhood which is used
+                    to calculate the threshold value Should be an
+                    integer.
+
+                thresh_offset: Constant subtracted from weighted mean of
+                    neighborhood to calculate the local threshold value.
+                    Default offset is 0.0, and it is treated as a float.
+
+     ---- SIDE EFFECTS ---- 
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output. 
+    """
+
+    img_0 = img_in.copy()
+
+    # Initial values
+    block_sz = 3
+    thresh_offset = 0
+
+    img_thresh = filt.threshold_local(img_0, block_size=block_sz, 
+        method='gaussian', offset=thresh_offset)
+
+    img_out = img_as_ubyte(img_0 > img_thresh)
+
+    # Create a figure
+    fig_size = (9,9)
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(fig_size[0], fig_size[1])
+    ax.set_aspect('equal')
+
+    # Show the image and save the "matplotlib.image.AxesImage"
+    # object for updating the figure later.
+    img_obj = ax.imshow(img_out, cmap='gray', vmin=0, vmax=255)
+    ax.set_xlabel("X Pixel Number")
+    ax.set_ylabel("Y Pixel Number")
+
+    plt.subplots_adjust(bottom=0.26)
+
+    block_sz_ax = fig.add_axes([0.20, 0.12, 0.15, 0.06])
+    block_sz_txt_box = TextBox(ax=block_sz_ax, label='Block Size (odd)  ', 
+        initial=str(block_sz), textalignment='center')
+
+    filt_off_ax = fig.add_axes([0.70, 0.12, 0.15, 0.06])
+    filt_off_txt_box = TextBox(ax=filt_off_ax, label='Offset (+/-)  ', 
+        initial=str(thresh_offset), textalignment='center')
+
+    update_ax = plt.axes([0.25, 0.03, 0.5, 0.05])
+    update_button = Button(update_ax, 'Update')
+
+    def adapt_thresh_update(event):
+        nonlocal block_sz
+        nonlocal thresh_offset
+        nonlocal img_out
+
+        block_sz = int(block_sz_txt_box.text)
+        thresh_offset = float(filt_off_txt_box.text)
+
+        if block_sz % 2 == 0:
+            block_sz = block_sz + 1
+
+        img_thresh = filt.threshold_local(img_0, block_size=block_sz, 
+            method='gaussian', offset=thresh_offset)
+
+        img_out = img_as_ubyte(img_0 > img_thresh)
+
+        # Update the image
+        img_obj.set(data=img_out)
+        fig.canvas.draw()
+
+    # Call the update function when the 'update' button is clicked
+    update_button.on_clicked(adapt_thresh_update)
+
+    plt.show()
+
+    # Save final filter parameters
+    fltr_params = ["adaptive_threshold", block_sz, thresh_offset]
 
     return [img_out, fltr_params]
 
@@ -231,6 +771,7 @@ def interact_hysteresis_threshold(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     low_val_slider.on_changed(hysteresis_threshod_update)
@@ -316,6 +857,7 @@ def interact_hysteresis_threshold2(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     update_button.on_clicked(hysteresis_threshod_update2)
@@ -459,6 +1001,7 @@ def interact_sato_tubeness(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     update_button.on_clicked(sato_tubeness_update)
@@ -596,6 +1139,7 @@ def interact_tv_denoise(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     update_button.on_clicked(tv_denoise_update)
@@ -751,6 +1295,7 @@ def interact_nl_means_denoise(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     update_button.on_clicked(nl_means_denoise_update)
@@ -938,6 +1483,7 @@ def interact_binary_morph(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
     update_button.on_clicked(binary_morph_update)

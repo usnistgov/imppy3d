@@ -13,7 +13,6 @@ optionally saved to the hard drive.
 """
 
 # Import external dependencies
-import sys
 import numpy as np
 from skimage import measure as meas
 from skimage import draw
@@ -21,10 +20,8 @@ from skimage.util import img_as_ubyte
 import pyvista as pv
 
 # Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import volume_image_processing as vol
-import vtk_api as vapi
+import imppy3d.volume_image_processing as vol
+import imppy3d.vtk_api as vapi
 
 
 # -------- DRAW AN ELLIPSOID --------
@@ -95,8 +92,6 @@ if perform_rotation:
     img_ellip = vol.img_rotate_3D(img_ellip, rot_axis, rot_angle, binarize=True)
 
 # Clip the image sequence back down to the smallest global-axis-aligned box.
-# There are more elegant ways to do this, but I already have codes that 
-# will calculate the coordinates of boundaries, so might as well use them.
 label_arr, num_feats = meas.label(img_ellip, return_num=True, connectivity=2)
 feat_props = meas.regionprops(label_arr) 
 img_ellip = feat_props[0].image

@@ -4,10 +4,385 @@ from skimage import restoration as rest
 from skimage import segmentation as seg
 from skimage import filters as filt
 from skimage import morphology as morph
-from skimage.util import img_as_ubyte, img_as_float
+import skimage.feature as sfeature
+from skimage.util import img_as_bool, img_as_ubyte, img_as_float
 
 # Import local packages
 from . import ski_interactive_processing as ifun
+
+
+def interact_driver_skeletonize(img_in, fltr_name_in="scikit"):
+    """
+    Binarizes an image by thinning connected pixels until they are just
+    one pixel wide, also known as skeletonization. The implementation
+    is done by SciKit-Image: skimage.morphology.skeletonize(). This is
+    an interactive function that enables the user to change the
+    parameters of the filter and see the results, thanks to
+    the "widgets" available in Matplotlib.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a binary image. It is assumed that the
+        image is already segmented and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    fltr_name_in: A string that represents the name of the skeletonize
+        algorithm to be applied. Currently, only one exists, named
+        "scikit":
+
+            "scikit": Uses functions from SciKit-Image to skeletonize
+            the binary image.
+
+    ---- RETURNED ----
+    [img_out]: Returns the final image after closing the interactive
+        session. img_out is in the same data type as img_in.
+
+    ---- SIDE EFFECTS ----
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output.
+
+    """
+    
+    # ---- Local Copies ----
+    fltr_name = fltr_name_in.lower()
+
+    # List of strings of supported filter types
+    fltr_list = ["scikit"]
+
+    # Ensure that the filter name is recognized
+    if fltr_name not in fltr_list:
+        print(f"\n{fltr_name_in} is not a supported algorithm for skeletonizing an image."\
+            f"Supported algorithms are: \n  {fltr_list}"\
+            f"\nDefaulting to Scikit-Image's skeletonization.")
+        fltr_name = "scikit"
+
+    if fltr_name == "scikit":
+        [img_fltr, fltr_params] = ifun.interact_skeletonize(img_in)
+    
+    # Using this function just to write to standard output
+    apply_driver_skeletonize(img_in, fltr_params)
+
+    return img_fltr
+
+
+def apply_driver_skeletonize(img_in, fltr_params_in, quiet_in=False):
+    """
+    Binarizes an image by thinning connected pixels until they are just
+    one pixel wide, also known as skeletonization. The implementation
+    is done by SciKit-Image: skimage.morphology.skeletonize(). This is
+    an non-interactive function related to the above function,
+    interact_driver_skeletonize().
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a binary image. It is assumed that the
+        image is already segmented and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    fltr_params_in: A list of parameters needed to perform the 
+        skeletonize operation. The first parameter is a string, which
+        determines what type of skeletonize algorithm to be applied, as
+        well as the definitions of the remaining parameters. Currently,
+        the only option is "scikit":
+
+            ["scikit", apply_skel]
+                apply_skel: A boolean which applies the skeletonize 
+                    algorithm if True, and does not modify the image
+                    if False.
+
+    quiet_in: A boolean that determines if this function should print
+        any statements to standard output. If False (default), outputs  
+        are written. Conversely, if True, outputs are suppressed. This
+        is particularly useful in the event of batch processing.
+
+    ---- RETURNED ----
+    [img_out]: Returns the resultant Numpy image after performing the
+        image processing procedures. img_out is in the same data type as
+        img_in.
+
+    ---- SIDE EFFECTS ----
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. Strings are 
+    printed to standard output.
+    """
+
+    # ---- Local Copies ----
+    img = img_in.copy()
+    fltr_params = fltr_params_in
+    quiet = quiet_in
+
+    fltr_name = (fltr_params[0]).lower()
+
+    if fltr_name == "scikit":
+        apply_skel = fltr_params[1]
+
+        if apply_skel:
+            img_bool = img_as_bool(img)
+            img_temp = morph.skeletonize(img_bool)
+            img_fltr = img_as_ubyte(img_temp)
+
+        else:
+            img_fltr = img
+
+        if not quiet:
+            print(f"\nSuccessfully skeletonized the image:\n"\
+                f"    Applied skeletonize: {apply_skel}")
+
+    return img_fltr
+
+
+def interact_driver_del_features(img_in, fltr_name_in="scikit"):
+    """
+    Interactively delete features, and/or fill holes, of a specified
+    size (i.e., area). This is accomplished using SkiKit-Image:
+    skimage.morphology.remove_small_holes() and
+    skimage.morphology.remove_small_objects(). This is an interactive
+    function that enables the user to change the parameters of the
+    filter and see the results, thanks to the "widgets" available in
+    Matplotlib.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a binary image. It is assumed that the
+        image is already segmented and of type uint8. The array
+        should thus be 2D, where each value represents the intensity for
+        each corresponding pixel.
+
+    fltr_name_in: A string that represents the name of the deletion
+        algorithm to be applied. Currently, only one exists, named
+        "scikit": 
+
+            "scikit": Uses functions from SciKit-Image to label and
+            delete features of a specified size. Also uses functions
+            from SciKit-Image to fill in holes of a specified size.
+            1-connectivity is used in all cases.
+
+    ---- RETURNED ----
+    [img_out]: Returns the final image after closing the interactive
+        session. img_out is in the same data type as img_in.
+
+    ---- SIDE EFFECTS ----
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output.
+    """
+
+    # ---- Local Copies ----
+    fltr_name = fltr_name_in.lower()
+
+    # List of strings of supported filter types
+    fltr_list = ["scikit"]
+
+    # Ensure that the filter name is recognized
+    if fltr_name not in fltr_list:
+        print(f"\n{fltr_name_in} is not a supported algorithm for deleting features."\
+            f"Supported algorithms are: \n  {fltr_list}"\
+            f"\nDefaulting to Scikit-Image's feature deletion.")
+        fltr_name = "scikit"
+
+    if fltr_name == "scikit":
+        [img_fltr, fltr_params] = ifun.interact_del_features(img_in)
+
+    # Using this function just to write to standard output
+    apply_driver_del_features(img_in, fltr_params)
+
+    return img_fltr
+
+
+def apply_driver_del_features(img_in, fltr_params_in, quiet_in=False):
+    """
+    Delete features and/or fill holes of a specified size (i.e., area).
+    This is accomplished using the SkiKit-Image library. This is the
+    non-interactive version of interact_driver_del_features() defined
+    above.
+
+    ---- INPUT ARGUMENTS ---- 
+    [img_in]: Numpy array for a binary image. It is assumed that the
+        image is already segmented and of type uint8. The array should
+        thus be 2D, where each value represents the intensity for each
+        corresponding pixel.   
+
+    fltr_params_in: A list of parameters needed to perform the fill and
+        deletion operations. The first parameter is a string, which
+        determines what type of feature detection algorithms to use, as
+        well as the definitions of the remaining parameters. Currently,
+        only the "scikit" implementation is complete:
+
+            ["scikit", max_hole_sz, min_feat_sz]
+                max_hole_sz: The maximum area, in pixels, of a 
+                    contiguous hole that will be filled. 1-connectivity
+                    is assumed, and this should be an integer.
+                min_feat_sz: The smallest allowable object size, in
+                    pixels, assuming 1-connectivity. This should be an
+                    integer.
+
+    quiet_in: A boolean that determines if this function should print
+        any statements to standard output. If False (default), outputs  
+        are written. Conversely, if True, outputs are suppressed. This
+        is particularly useful in the event of batch processing.
+
+    ---- RETURNED ----
+    [img_out]: Returns the resultant Numpy image after performing the
+        image processing procedures. img_out is in the same data type as
+        img_in.
+
+    ---- SIDE EFFECTS ----
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. Strings are 
+    printed to standard output.
+    """
+
+    # ---- Local Copies ----
+    img = img_in.copy()
+    fltr_params = fltr_params_in
+    quiet = quiet_in
+
+    fltr_name = (fltr_params[0]).lower()
+
+    if fltr_name == "scikit":
+        max_hole_sz = fltr_params[1]
+        min_feat_sz = fltr_params[2]
+
+        img_bool = img_as_bool(img)
+        img_temp = morph.remove_small_holes(img_bool, max_hole_sz, connectivity=1)
+        img_fltr = morph.remove_small_objects(img_temp, min_feat_sz, connectivity=1)
+        img_fltr = img_as_ubyte(img_fltr)
+
+        if not quiet:
+            print(f"\nSuccessfully removed small holes and small objects:\n"\
+                f"    Minimum Allowable Feature Size: {min_feat_sz}\n"\
+                f"    Maximum Allowable Hole Size: {max_hole_sz}")
+
+    return img_fltr
+
+
+def interact_driver_edge_detect(img_in, fltr_name_in):
+    """
+    Enhances the edges of an image which are detected using the Canny
+    edge filter, implemented by SciKit-Image. This is an interactive
+    function that enables the user to change the parameters of the
+    filter and see the results, thanks to the "widgets" available in
+    Matplotlib.
+
+    ---- INPUT ARGUMENTS ----
+    [img_in]: Numpy array for a grayscale image. It is assumed that the
+        image is already grayscale and of type uint8. The array should
+        thus be 2D, where each value represents the intensity for each
+        corresponding pixel.
+    
+    fltr_name_in: A string that represents the name of the thresholding
+        filter to be applied. Can be either: 
+
+            "canny": Applies the Canny edge detection algorithm.
+
+    ---- RETURNED ----
+    [img_fltr]: Returns the final image after closing the interactive
+        session. img_fltr is in the same format as img_in.
+
+    [img_mask]: A binary image where white pixels represent the edges
+        found by the Canny algorithm.
+
+    ---- SIDE EFFECTS ----
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. It does pop-up
+    a new window that visualizes the provided image. Strings are printed
+    to standard output.
+    """
+    
+    # ---- Local Copies ----
+    fltr_name = fltr_name_in.lower()
+
+    # List of strings of supported filter types
+    fltr_list = ["canny"]
+
+    # Ensure that the filter name is recognized
+    if fltr_name not in fltr_list:
+        print(f"\n{fltr_name_in} is not a supported edge detection. Supported "\
+            f"edge detection algorithms are: \n  {fltr_list}"\
+            "\nDefaulting to canny edge detection.")
+        fltr_name = "canny"
+
+    if fltr_name == "canny":
+        [img_fltr, img_mask, fltr_params] = ifun.interact_canny_edge(img_in)
+
+    # Using this function just to write to standard output
+    apply_driver_edge_detect(img_in, fltr_params)
+
+    return img_fltr, img_mask
+
+
+def apply_driver_edge_detect(img_in, fltr_params_in, quiet_in=False):
+    """
+    Enhances the edges of an image which are detected using the Canny
+    edge filter, implemented by SciKit-Image. This is the
+    non-interactive version of interact_driver_edge_detect().
+
+    ---- INPUT ARGUMENTS ----
+    [img_in]: Numpy array for a grayscale image. It is assumed that the
+        image is already grayscale and of type uint8. The array should
+        thus be 2D, where each value represents the intensity for each
+        corresponding pixel.
+
+    fltr_params_in: A list of parameters needed to perform the edge
+        detection. The first parameter is a string, which determines
+        what type of edge detection filter to be applied, as well as the 
+        definitions of the remaining parameters. Only the "canny" option
+        is implemented at the moment:
+
+            ["canny", sigma_out, low_thresh_out, high_thresh_out]
+                sigma_out: Standard deviation of the Gaussian filter, 
+                    which should be a float.
+                low_thresh_out: Lower bound for hysteresis thresholding
+                    (linking edges), which should be a float.
+                high_thresh_out: Upper bound for hysteresis thresholding
+                    (linking edges), which should be a float.
+
+    quiet_in: A boolean that determines if this function should print
+        any statements to standard output. If False (default), outputs  
+        are written. Conversely, if True, outputs are suppressed. This
+        is particularly useful in the event of batch processing.
+
+    ---- RETURNED ----
+    [img_fltr]: Returns the final image after closing the interactive
+        session. img_fltr is in the same format as img_in.
+
+    [img_mask]: A binary image where white pixels represent the edges
+        found by the Canny algorithm.
+
+    ---- SIDE EFFECTS ----
+    Function input arguments are not altered. Nothing is written to the 
+    hard drive. This function is a read-only function. Strings are 
+    printed to standard output.
+    """
+
+    # ---- Local Copies ----
+    img = img_in.copy()
+    fltr_params = fltr_params_in
+    quiet = quiet_in
+
+    fltr_name = (fltr_params[0]).lower()
+
+    if fltr_name == "canny":
+        sigma_out = fltr_params[1]
+        low_thresh_out = fltr_params[2] 
+        high_thresh_out = fltr_params[3]
+
+        img_mask = sfeature.canny(img, sigma=sigma_out, 
+            low_threshold=low_thresh_out, high_threshold=high_thresh_out)
+
+        mask_out = img_as_ubyte(img_mask)
+        img_fltr = img.copy()
+        img_fltr[img_mask] = img[img_mask]/2
+
+        if not quiet:
+            print(f"\nSuccessfully applied the 'canny' edge detection:\n"\
+                f"    Sigma: {sigma_out}\n"\
+                f"    Low Threshold: {low_thresh_out}\n"\
+                f"    High Threshold: {high_thresh_out}")
+
+    return img_fltr, mask_out
 
 
 def interact_driver_thresholding(img_in, fltr_name_in):
@@ -24,23 +399,23 @@ def interact_driver_thresholding(img_in, fltr_name_in):
         corresponding pixel.
     
     fltr_name_in: A string that represents the name of the thresholding
-        filter to be applied. Can be either 
-        "hysteresis_threshold_slider" or "hysteresis_threshold_text". 
+        filter to be applied. Can be either: 
             
-            "hysteresis_threshold_slider":  Applies a threshold to an 
+            "hysteresis_threshold_slider": Applies a threshold to an 
             image using hysteresis thresholding, which considers the
             connectivity of features. This interactive GUI utilizes
             slider widgets for input.
             
-            "hysteresis_threshold_text":  Applies a threshold to an 
+            "hysteresis_threshold_text": Applies a threshold to an 
             image using hysteresis thresholding, which considers the
             connectivity of features. This interactive GUI utilizes
             text box widgets for input.
-            
-    NOTE: Currently, only hysteresis thresholding has been implemented
-    for thresholding from the Skimage library. For adaptive
-    thresholding or conventional global thresholding, see the OpenCV
-    interactive scripts in cv_driver_functions.py.
+
+            "adaptive_threshold": Applies adaptive thresholding, also
+            known as local thresholding.
+
+            "global_threshold": Uses a single value of grayscale 
+            intensity as the thresholding criterion for the image.
 
     ---- RETURNED ----
     [img_out]: Returns the final image after closing the interactive
@@ -57,7 +432,8 @@ def interact_driver_thresholding(img_in, fltr_name_in):
     fltr_name = fltr_name_in.lower()
 
     # List of strings of supported filter types
-    fltr_list = ["hysteresis_threshold_slider", "hysteresis_threshold_text"]
+    fltr_list = ["hysteresis_threshold_slider", "hysteresis_threshold_text",
+        "global_threshold"]
 
     # Ensure that the filter name is recognized
     if fltr_name not in fltr_list:
@@ -66,13 +442,19 @@ def interact_driver_thresholding(img_in, fltr_name_in):
             "\nDefaulting to hysteresis thresholding.")
         fltr_name = "hysteresis_threshold_slider"
 
-    # -------- Filter Type: "hysteresis_threshold" for slider inputs --------
+    # Filter Type: "hysteresis_threshold" for slider inputs
     if fltr_name == "hysteresis_threshold_slider":
         [img_fltr, fltr_params] = ifun.interact_hysteresis_threshold(img_in)
 
-    # -------- Filter Type: "hysteresis_threshold2" for text inputs --------
-    if fltr_name == "hysteresis_threshold_text":
+    # Filter Type: "hysteresis_threshold2" for text inputs
+    elif fltr_name == "hysteresis_threshold_text":
         [img_fltr, fltr_params] = ifun.interact_hysteresis_threshold2(img_in)
+
+    elif fltr_name == "global_threshold":
+        [img_fltr, fltr_params] = ifun.interact_global_thresholding(img_in)
+
+    elif fltr_name == "adaptive_threshold":
+        [img_fltr, fltr_params] = ifun.interact_adaptive_thresholding(img_in)
 
     # Using this function just to write to standard output
     apply_driver_thresholding(img_in, fltr_params)
@@ -95,25 +477,30 @@ def apply_driver_thresholding(img_in, fltr_params_in, quiet_in=False):
     fltr_params_in: A list of parameters needed to perform the threshold
         operation. The first parameter is a string, which determines
         what type of threshold filter to be applied, as well as the 
-        definitions of the remaining parameters. As of now, 
-        fltr_params_in[0] must be "hysteresis_threshold". 
-        Example parameter lists are given below for each type, 
+        definitions of the remaining parameters. Available options are: 
             
             ["hysteresis_threshold", low_val_out, high_val_out] 
-
                 low_val_out: Lower threshold intensity as an integer
-
                 high_val_out: Upper threshold intensity as an integer
+
+            ["adaptive_threshold", block_sz, thresh_offset]
+                block_sz: Odd size of pixel neighborhood which is used
+                    to calculate the threshold value Should be an
+                    integer.
+                thresh_offset: Constant subtracted from weighted mean of
+                    neighborhood to calculate the local threshold value.
+                    Default offset is 0.0, and it is treated as a float.
+
+            ["global_threshold", global_thresh]
+                global_thresh: A grayscale intensity to use as a 
+                    criterion for thresholding. Values greater than 
+                    this threshold will become white. Values less than
+                    this threshold will become black.
             
     quiet_in: A boolean that determines if this function should print
         any statements to standard output. If False (default), outputs  
         are written. Conversely, if True, outputs are suppressed. This
         is particularly useful in the event of batch processing.
-            
-    NOTE: Currently, only hysteresis thresholding has been implemented
-    for thresholding from the Skimage library. For adaptive
-    thresholding or conventional global thresholding, see the OpenCV
-    interactive scripts in cv_driver_functions.py.
 
     ---- RETURNED ----
     [img_out]: Returns the resultant Numpy image after performing the
@@ -145,6 +532,31 @@ def apply_driver_thresholding(img_in, fltr_params_in, quiet_in=False):
             print(f"\nSuccessfully applied the 'hysteresis_threshold':\n"\
                 f"    Lower grayscale intensity limit: {low_val_in}\n"\
                 f"    Upper grayscale intensity limit: {high_val_in}")
+
+    elif fltr_name == "global_threshold":
+        global_thresh = fltr_params[1]
+        img_fltr = img_as_ubyte(img > global_thresh)
+
+        if not quiet:
+            print(f"\nSuccessfully applied the 'global_threshold':\n"\
+                f"    Global threshold value: {global_thresh}")
+
+    elif fltr_name == "adaptive_threshold":
+        block_sz = fltr_params[1]
+        thresh_offset = fltr_params[2]
+
+        if block_sz % 2 == 0:
+            block_sz = block_sz + 1
+
+        img_thresh = filt.threshold_local(img, block_size=block_sz, 
+            method='gaussian', offset=thresh_offset)
+
+        img_fltr = img_as_ubyte(img > img_thresh)
+
+        if not quiet:
+            print(f"\nSuccessfully applied the 'adaptive_threshold':\n"\
+                f"    Block Size: {block_sz}\n"\
+                f"    Offset (+/-): {thresh_offset}")
 
     else:
         print(f"\nERROR: {fltr_name} is not a supported sharpening filter.")

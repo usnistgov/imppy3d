@@ -14,6 +14,9 @@ Currently, example scripts are provided for the following topics:
 * Fitting a rotated bounding box to 3D data
 (See "./bounding_box/")
 
+* Characterizing the shape and size of pores (in metal-based AM)
+(See "./calc_metrics_pores/")
+
 * Extracting data within a spherical region-of-interest
 (See "./extract_sphere/")
 

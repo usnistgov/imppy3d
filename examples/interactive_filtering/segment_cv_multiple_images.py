@@ -15,11 +15,9 @@ import cv2 as cv
 from matplotlib import pyplot as plt
 
 # Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import import_export as imex
-import cv_processing_wrappers as cwrap
-import cv_driver_functions as drv
+import imppy3d.import_export as imex
+import imppy3d.cv_processing_wrappers as cwrap
+import imppy3d.cv_driver_functions as drv
 
 
 

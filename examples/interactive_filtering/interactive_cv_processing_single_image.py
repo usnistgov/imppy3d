@@ -10,6 +10,11 @@ make calls to OpenCV algorithms, however, the imppy3d library also
 contains some wrapper scripts to interactively post-process an image
 using Skikit-Image. For more information, look into the python
 script called "ski_driver_functions.py" in the "functions" folder.
+
+WARNING: Due to updates to the OpenCV library, the interactive windows
+do not display correctly. This makes it difficult to read the prompts
+to the slider variables. Consider using the Skikit-Image interactive
+windows instead.
 """
 
 # Import external dependencies
@@ -18,14 +23,9 @@ import numpy as np
 import cv2 as cv
 from matplotlib import pyplot as plt
 
-# Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import import_export as imex
-import plt_wrappers as pwrap
-import cv_interactive_processing as ifun
-import cv_processing_wrappers as cwrap
-import cv_driver_functions as drv
+import imppy3d.import_export as imex
+import imppy3d.cv_processing_wrappers as cwrap
+import imppy3d.cv_driver_functions as drv
 
 # Set constants related to plotting (for MatPlotLib)
 SMALL_SIZE = 10

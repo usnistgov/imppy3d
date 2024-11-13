@@ -11,17 +11,14 @@ drive.
 """
 
 # Import external dependencies
-import sys
 import numpy as np
 from skimage.util import img_as_ubyte
 import pyvista as pv
 
 # Import local modules
-# Ensure this is the correct path to the functions folder
-sys.path.insert(1, '../../functions') 
-import import_export as imex
-import volume_image_processing as vol
-import vtk_api as vapi
+import imppy3d.import_export as imex
+import imppy3d.volume_image_processing as vol
+import imppy3d.vtk_api as vapi
 
 
 # -------- IMPORT IMAGE SEQUENCE --------
