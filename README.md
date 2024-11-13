@@ -52,8 +52,7 @@ script, "./examples/segment_3d_particles/segment_3D_powder_particles.py".
 
 
 ## Installation 
-The development of IMPPY3D uses the [Mamba]
-(https://github.com/conda-forge/miniforge) package manager for handling
+The development of IMPPY3D uses the [Mamba](https://github.com/conda-forge/miniforge) package manager for handling
 dependencies, similar to the popular Conda package manager. We recommend
 creating a new Python 3.10 environment (in Mamba/Conda) prior to installing
 IMPPY3D. The easiest method of installing IMPPY3D is through `pip`. Wheel files
@@ -94,8 +93,7 @@ environment variables set for your C compiler. If setuptools cannot find your
 compiler, then compilation of IMPPY3D will fail. Furthermore, the same
 C-compiler as that which was used to compile the specific Python version you
 are using should also be used to create the IMPPY3D C extensions. For Windows
-users, see the documentation, [https://wiki.python.org/moin/WindowsCompilers]
-(https://wiki.python.org/moin/WindowsCompilers).
+users, see the documentation, [https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
 
 ## Usage Examples 
 A number of example Python scripts are provided in the "./examples/" folder to
