@@ -66,12 +66,23 @@ installation cases.
 Description
 
 ### Installing Using Pip with Local Binary Files
-The binary .whl files are located in folder, "./dist/". The .whl files will contain information about the Python version, IMPPY3D version number, and operating system. Currently, precompiled .whl files are only available for Windows and Linux operating systems using Python 3.10. To install IMPPY3D using one of these precompiled .whl files, choose the appropriate .whl for your operating system and use the `pip` command,
+The binary .whl files are located in the folder, "./dist/". The name of the .whl
+files will contain information about the Python version, IMPPY3D version
+number, and operating system. Currently, precompiled .whl files are only
+available for Windows and Linux operating systems using Python 3.10. To install
+IMPPY3D using one of these precompiled .whl files, choose the appropriate .whl
+for your operating system and use the `pip` command in your Python environment,
 
 `pip install /path/to/file.whl`
 
 ### Compiling IMPPY3D
-Description
+IMPPY3D is largely Python-based, but there are also C extensions, via Cython, that must be compiled in order to use all of the features of IMPPY3D. A `setup.py` file is provided for easier compilation of IMPPY3D. To compile IMPPY3D, open a terminal with your Python environment active and type,
+
+`python setup.py bdist_wheel sdist` 
+
+This command will use the setuptools library to compile IMPPY3D into a wheel (.whl). Upon successful completion, the binary .whl file will be located in the folder, "./dist/".
+
+It is important to ensure that your Python environment also has the appropriate environment variables set for your C compiler. If setuptools cannot find your compiler, then compilation of IMPPY3D will fail. Furthermore, the same C-compiler as that which was used to compile the specific Python version you are using should also be used to create the IMPPY3D C extensions. For Windows users, see the documentation, [https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
 
 ## Usage Examples 
 A number of example Python scripts are provided in the "./examples/" folder to
@@ -91,9 +102,6 @@ radiographs and removal of ring artifacts.
 
 * Create an optimization routine that stitches multiple X-ray CT fields-of-view
 together.
-
-* Add more example scripts: converting a voxel model back to an image stack, 
-characterizing voids and defects in additively manufactured metals, and so on.
 
 ## Support
 If you encounter any bugs or unintended behavior, please create an "Issue" in
