@@ -158,7 +158,7 @@ on the header strings:
 """
 
 # Import external dependencies
-import csv
+import os, csv
 import numpy as np
 from skimage import measure as meas
 from skimage import segmentation as sseg
@@ -356,6 +356,9 @@ if __name__ == '__main__':
 
 
     # -------- DEFINITIONS OF CONSTANTS --------
+
+    # Create the directory if it is not there already
+    os.makedirs(imgs_pores_dir_out_path, exist_ok=True)
 
     # The header string used in the .csv file of pore metrics. See
     # comments at the top.

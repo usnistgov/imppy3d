@@ -17,7 +17,7 @@ also be opened in ParaView and compared to the voxel model.
 """
 
 # Import external dependencies
-import csv
+import os, csv
 import numpy as np
 from skimage import measure as meas
 from skimage import morphology as morph
@@ -134,6 +134,7 @@ print(f"\nSuccessfully processed {num_imgs} images!")
 # Uncomment below to save the processed images
 #save_path_out = "./binary_imgs/"
 #file_name_out = "powder_binary.tif"
+#os.makedirs(save_path_out, exist_ok=True)
 #imex.save_image_seq(imgs, save_path_out, file_name_out)
 
 
