@@ -1,0 +1,1 @@
+This folder contains the output binary images.
