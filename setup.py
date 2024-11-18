@@ -25,11 +25,11 @@ extensions = [
 
 setup(
     name='imppy3d',
-    version='1.1.0',
+    version='1.1.1',
     author='Newell Moser',  
     author_email='newell.moser@nist.gov',  
     description='IMPPY3D: A library for processing 3D image stacks',
-    long_description=open('README.md').read(),
+    long_description=open('PyPi_README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/usnistgov/imppy3d/',
     packages=find_packages(where='src'),

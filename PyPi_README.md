@@ -31,26 +31,6 @@ and voxel models can be represented as smooth surface-based models like STL
 meshes. Additional information and example scripts can be found in the included
 ReadMe files.
 
-## Example of Post-Processing an X-ray CT Image Stack
-Synthetic X-ray computed tomography (X-ray CT) images can be created. To do so
-run the "./resources/generate_sample_data.py" script, after follwoing the setup
-instructions. Some examples may have been downloaded as part of the code, these
-are found in the "./examples/resources/powder_particles/" directory. This image
-stack imitates what actual X-ray CT data would look like of isolated, metal
-powder-particles commonly used in metal-based additive manufacturing.
-
-![](./readme_pics/synthetic_powder_particles_img_stack.gif)
-
-Using IMPPY3D, the synthetic image stack can be denoised and segmented. Then,
-the segmented particles can be converted into voxel model. As a demonstration,
-these powder particles were characterized in terms of volume, porosity,
-orientation, aspect ratio, sphericity, and more. Additional information can be
-found in the example
-script, "./examples/segment_3d_particles/segment_3D_powder_particles.py".
-
-![](./readme_pics/synthetic_powder_particles_voxels.gif)
-
-
 ## Installation 
 The development of IMPPY3D uses the [Mamba](https://github.com/conda-forge/miniforge) 
 package manager for handling dependencies, similar to the popular Conda package
@@ -61,7 +41,7 @@ the IMPPY3D repository(for Windows or Linux machines). Alternatively, IMPPY3D
 can be compiled using setuptools. The following subsections go into more
 details for each of these installation cases.
 
-### Installing From PyPi
+### Installing From PyPi (Python 3.10)
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
