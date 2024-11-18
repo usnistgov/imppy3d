@@ -61,31 +61,33 @@ the IMPPY3D repository(for Windows or Linux machines). Alternatively, IMPPY3D
 can be compiled using setuptools. The following subsections go into more
 details for each of these installation cases.
 
-### Installing From PyPi
+### Installing From PyPi (Python 3.10)
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d=1.1.1`
+`pip install imppy3d=1.1.2`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.1. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.2. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
-The binary .whl files are located in the folder, "./dist/". The name of the .whl
-files will contain information about the Python version, IMPPY3D version
-number, and operating system. Currently, precompiled .whl files are only
-available for Windows and Linux operating systems using Python 3.10. To install
-IMPPY3D using one of these precompiled .whl files, choose the appropriate .whl
-for your operating system and use the `pip` command in your Python environment,
+The binary .whl files are located in the folder, "./dist/", of the
+[GitHub repository](https://github.com/usnistgov/imppy3d/). The name
+of the .whl files will contain information about the Python version, IMPPY3D
+version number, and operating system. Currently, precompiled .whl files are
+only available for Windows and Linux operating systems using Python 3.10. To
+install IMPPY3D using one of these precompiled .whl files, choose the
+appropriate .whl for your operating system and use the `pip` command in your
+Python environment,
 
 `pip install /path/to/file.whl`
 
 ### Compiling IMPPY3D
 IMPPY3D is largely Python-based, but there are also C extensions, via Cython,
 that must be compiled in order to use all of the features of IMPPY3D. A
-`setup.py` file is provided for easier compilation of IMPPY3D. To compile
-IMPPY3D, open a terminal with your Python environment active and type,
+`setup.py` file is provided in the [GitHub repository](https://github.com/usnistgov/imppy3d/) for easier compilation of IMPPY3D. To
+compile IMPPY3D, open a terminal with your Python environment active and type,
 
 `python setup.py bdist_wheel sdist` 
 
