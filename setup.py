@@ -25,7 +25,7 @@ extensions = [
 
 setup(
     name='imppy3d',
-    version='1.1.2',
+    version='1.1.3',
     author='Newell Moser',  
     author_email='newell.moser@nist.gov',  
     description='IMPPY3D: A library for processing 3D image stacks',
@@ -48,11 +48,11 @@ setup(
         "vtk>9.1,<=9.3",
         'pyvista==0.34.*',
         'meshio==5.3.*',
+        'imagecodecs>=2022.7',
+        'tifffile>=2022',
 #        'imageio>=2.22',
 #        'imageio-ffmpeg>=0.4',
 #        'pillow>=9',
-#        'tifffile>=2022',
-#        'imagecodecs>=2022.7',
     ],
     ext_modules=cythonize(
         extensions,
