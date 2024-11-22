@@ -63,24 +63,39 @@ on the header strings:
     algorithm. Note, this field value will read “NaN” if the pore 
     contains fewer than 64 voxels. 
 
-    7) “Centroid Img Num. (1-based indexing)”: The coordinates of the 
+    7) “Centroid Img Num. (0-based indexing)”: The coordinates of the 
     centroid can be described using indices representing the image 
     number, row number, and column number. This specific data field 
-    represents the image index of the centroid. Note, 1-based indexing
-    is used here, implying that the first image corresponds to one, not
-    zero. 
+    represents the image index of the centroid. Note, 0-based indexing
+    is used here, implying that the first image corresponds to zero, not
+    one. 
 
-    8) “Centroid Row Num. (1-based indexing)”: The row index of the 
-    centroid of the pore, using 1-based indexing. For a given image, the
+    8) “Centroid Row Num. (0-based indexing)”: The row index of the 
+    centroid of the pore, using 0-based indexing. For a given image, the
     first row starts at the top of the image. Also, see the notes above
     for bullet 7.
 
-    9) “Centroid Col Num. (1-based indexing)”: The column index of the
-    centroid of the pore, using 1-based indexing. For a given image, the
+    9) “Centroid Col Num. (0-based indexing)”: The column index of the
+    centroid of the pore, using 0-based indexing. For a given image, the
     first column starts on the left-side of the image. Also, see the
     notes above for bullet 7.
 
-    10) “BBox Center Img Num. (1-based indexing)”: A rotated bounding
+    10. “Centroid VTK X [um]”: When visualizing the 3D voids in ParaView
+    using the VTK-voxel files, there is a need to convert the image
+    indices into XYZ-coordinates. For complete transparency, the
+    XYZ-coordinates of the centroids of the pores in VTK models
+    are given in microns. This column specifically provides the
+    X-coordinate (in microns) of the given centroid in the VTK model.
+
+    11. “Centroid VTK Y [um]”: The Y-coordinate (in microns) of the
+    given centroid in the VTK model. Also, see notes above for bullet
+    10.
+
+    12. “Centroid VTK Z [um]”: The Z-coordinate (in microns) of the
+    given centroid in the VTK model. Also, see notes above for bullet
+    10.
+
+    13) “BBox Center Img Num. (0-based indexing)”: A rotated bounding
     box was fitted to pores containing at least 64 voxels. The three
     lengths are denoted based on their lengths, L≥W≥T. Specifically, L
     is defined as the longest distance between (the centers of) any two
@@ -88,35 +103,35 @@ on the header strings:
     voxels while remaining orthogonal to L. T is the longest distance
     between any to voxels while remaining orthogonal to L and W. This
     specific data field represents the image index of the center of the
-    bounding box. Note, 1-based indexing is used here, implying that the
-    first image corresponds to one, not zero. Will be “NaN” if the pore
+    bounding box. Note, 0-based indexing is used here, implying that the
+    first image corresponds to zero, not one. Will be “NaN” if the pore
     contains fewer than 64 voxels.
 
-    11) “BBox Center Row Num. (1-based indexing)”: The row index of the
-    center of the bounding box, using 1-based indexing. For a given
+    14) “BBox Center Row Num. (0-based indexing)”: The row index of the
+    center of the bounding box, using 0-based indexing. For a given
     image, the first row starts at the top of the image. Also, see the
     notes above for bullet 10. Will be “NaN” if the pore contains fewer
     than 64 voxels.
 
-    12) “BBox Center Col Num. (1-based indexing)”: The column index of
-    the center of the bounding box, using 1-based indexing. For a given
+    15) “BBox Center Col Num. (0-based indexing)”: The column index of
+    the center of the bounding box, using 0-based indexing. For a given
     image, the first column starts on the left-side of the image. Also,
     see the notes above for bullet 7. Will be “NaN” if the pore
     contains fewer than 64 voxels.
 
-    13) “Rotated BBox (L)ength [um]”: The length, L, of the bounding box
+    16) “Rotated BBox (L)ength [um]”: The length, L, of the bounding box
     in μm where L ≥ W ≥ T. Also, see the notes above for bullet 10. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    14) “Rotated BBox (W)idth [um]”: The length, W, of the bounding box
+    17) “Rotated BBox (W)idth [um]”: The length, W, of the bounding box
     in μm where L ≥ W ≥ T. Also, see the notes above for bullet 10. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    15) “Rotated BBox (T)hickness [um]”: The length, T, of the bounding
+    18) “Rotated BBox (T)hickness [um]”: The length, T, of the bounding
     box in μm where L ≥ W≥ T. Also, see the notes above for bullet 10.
     Will be “NaN” if the pore contains fewer than 64 voxels.
 
-    16) “L_Vec. Img Component”: The orientations of the three lengths of
+    19) “L_Vec. Img Component”: The orientations of the three lengths of
     the bounding box can be defined via directional unit vectors. This
     was done using image indices. In other words, each vector will have
     an image index component, row index component, and a column index
@@ -124,35 +139,35 @@ on the header strings:
     component of the unit vector collinear with L. Will be “NaN” if the
     pore contains fewer than 64 voxels.
 
-    17) “L_Vec. Row Component”: The row component of the unit vector
+    20) “L_Vec. Row Component”: The row component of the unit vector
     collinear with L. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    18) “L_Vec. Col Component”: The column component of the unit vector
+    21) “L_Vec. Col Component”: The column component of the unit vector
     collinear with L. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    19) “W_Vec. Img Component”: The image component of the unit vector
+    22) “W_Vec. Img Component”: The image component of the unit vector
     collinear with W. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels. 
 
-    20) “W_Vec. Row Component”: The row component of the unit vector
+    23) “W_Vec. Row Component”: The row component of the unit vector
     collinear with W. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    21) “W_Vec. Col Component”: The column component of the unit vector
+    24) “W_Vec. Col Component”: The column component of the unit vector
     collinear with W. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    22) “T_Vec. Img Component”: The image component of the unit vector
+    25) “T_Vec. Img Component”: The image component of the unit vector
     collinear with T. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    23) “T_Vec. Row Component”: The row component of the unit vector
+    26) “T_Vec. Row Component”: The row component of the unit vector
     collinear with T. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 
-    24) “T_Vec. Col Component”: The column component of the unit vector
+    27) “T_Vec. Col Component”: The column component of the unit vector
     collinear with T. Also, see the notes above for bullet 16. Will
     be “NaN” if the pore contains fewer than 64 voxels.
 """
@@ -369,24 +384,27 @@ if __name__ == '__main__':
         'Volume of Void [um^3]', #4
         'Equiv. Spher. Diameter [um]', #5
         'Approx. Sphericity', #6
-        'Centroid Img Num. (1-based indexing)', #7
-        'Centroid Row Num. (1-based indexing)', #8
-        'Centroid Col Num. (1-based indexing)', #9
-        'BBox Center Img Num. (1-based indexing)', #10
-        'BBox Center Row Num. (1-based indexing)', #11
-        'BBox Center Col Num. (1-based indexing)', #12
-        'Rotated BBox (L)ength [um]', #13
-        'Rotated BBox (W)idth [um]', #14
-        'Rotated BBox (T)hickness [um]', #15
-        'L_Vec. Img Component', #16
-        'L_Vec. Row Component', #17
-        'L_Vec. Col Component', #18
-        'W_Vec. Img Component', #19
-        'W_Vec. Row Component', #20
-        'W_Vec. Col Component', #21
-        'T_Vec. Img Component', #22
-        'T_Vec. Row Component', #23
-        'T_Vec. Col Component', #24
+        'Centroid Img Num. (0-based indexing)', #7
+        'Centroid Row Num. (0-based indexing)', #8
+        'Centroid Col Num. (0-based indexing)', #9
+        'Centroid VTK X [um]', #10
+        'Centroid VTK Y [um]', #11
+        'Centroid VTK Z [um]', #12
+        'BBox Center Img Num. (0-based indexing)', #13
+        'BBox Center Row Num. (0-based indexing)', #14
+        'BBox Center Col Num. (0-based indexing)', #15
+        'Rotated BBox (L)ength [um]', #16
+        'Rotated BBox (W)idth [um]', #17
+        'Rotated BBox (T)hickness [um]', #18
+        'L_Vec. Img Component', #19
+        'L_Vec. Row Component', #20
+        'L_Vec. Col Component', #21
+        'W_Vec. Img Component', #22
+        'W_Vec. Row Component', #23
+        'W_Vec. Col Component', #24
+        'T_Vec. Img Component', #25
+        'T_Vec. Row Component', #26
+        'T_Vec. Col Component', #27
         ]
 
     # Format variables to control the precision of the saved quantities
@@ -416,6 +434,9 @@ if __name__ == '__main__':
         'F', #22
         'F', #23
         'F', #24
+        'F', #25
+        'F', #26
+        'F', #27
         ]
 
     # Some constants related to voxel size, to be used later.
@@ -514,6 +535,11 @@ if __name__ == '__main__':
 
         voxel_void.translate(tuple(trans_vec_xyz), inplace=True)
 
+        # Calculate the center of each void in the VTK model
+        cell_centers_obj = voxel_void.cell_centers() # PolyData object
+        cell_centers_arr = cell_centers_obj.points # 2D Numpy array
+        void_vtk_cent = np.mean(cell_centers_arr, axis=0) # Centroid [um]
+
         # Add fields to the VTK model
         voxel_void.point_data['Pore ID'] = void_id*np.ones(voxel_void.n_points,
             dtype=np.uint16)
@@ -523,6 +549,33 @@ if __name__ == '__main__':
 
         voxel_void.point_data['Eqv Sph Diam [um]'] = eqv_diam*np.ones(
             voxel_void.n_points, dtype=np.float32)
+
+        voxel_void.point_data['Centroid X [um]'] = void_vtk_cent[0]*np.ones(
+            voxel_void.n_points, dtype=np.float32)
+
+        voxel_void.point_data['Centroid Y [um]'] = void_vtk_cent[1]*np.ones(
+            voxel_void.n_points, dtype=np.float32)
+
+        voxel_void.point_data['Centroid Z [um]'] = void_vtk_cent[2]*np.ones(
+            voxel_void.n_points, dtype=np.float32)
+
+        voxel_void.cell_data['Pore ID'] = void_id*np.ones(voxel_void.n_cells,
+            dtype=np.uint16)
+
+        voxel_void.cell_data['Num Voxels'] = num_void_voxels*np.ones(
+            voxel_void.n_cells, dtype=np.uint32)
+
+        voxel_void.cell_data['Eqv Sph Diam [um]'] = eqv_diam*np.ones(
+            voxel_void.n_cells, dtype=np.float32)
+
+        voxel_void.cell_data['Centroid X [um]'] = void_vtk_cent[0]*np.ones(
+            voxel_void.n_cells, dtype=np.float32)
+
+        voxel_void.cell_data['Centroid Y [um]'] = void_vtk_cent[1]*np.ones(
+            voxel_void.n_cells, dtype=np.float32)
+
+        voxel_void.cell_data['Centroid Z [um]'] = void_vtk_cent[2]*np.ones(
+            voxel_void.n_cells, dtype=np.float32)
 
         # Save the labeled pore in a new 16-bit image stack
         ii_arr = tuple(cur_coords[:,0])
@@ -577,24 +630,27 @@ if __name__ == '__main__':
                 void_vol, #4
                 eqv_diam, #5
                 sphericity, #6
-                pore_cent[0] + 1, #7
-                pore_cent[1] + 1, #8
-                pore_cent[2] + 1, #9
-                b_cent[0] + 1, #10
-                b_cent[1] + 1, #11
-                b_cent[2] + 1, #12
-                b_l_len, #13
-                b_w_len, #14
-                b_t_len, #15
-                b_l_vec[0], #16
-                b_l_vec[1], #17 
-                b_l_vec[2], #18
-                b_w_vec[0], #19
-                b_w_vec[1], #20
-                b_w_vec[2], #21
-                b_t_vec[0], #22
-                b_t_vec[1], #23
-                b_t_vec[2], #24
+                pore_cent[0], #7
+                pore_cent[1], #8
+                pore_cent[2], #9
+                void_vtk_cent[0], #10
+                void_vtk_cent[1], #11
+                void_vtk_cent[2], #12
+                b_cent[0], #13
+                b_cent[1], #14
+                b_cent[2], #15
+                b_l_len, #16
+                b_w_len, #17
+                b_t_len, #18
+                b_l_vec[0], #19
+                b_l_vec[1], #20 
+                b_l_vec[2], #21
+                b_w_vec[0], #22
+                b_w_vec[1], #23
+                b_w_vec[2], #24
+                b_t_vec[0], #25
+                b_t_vec[1], #26
+                b_t_vec[2], #27
                 ]
 
         else: 
@@ -619,24 +675,27 @@ if __name__ == '__main__':
                 void_vol, #4
                 eqv_diam, #5
                 sphericity, #6
-                pore_cent[0] + 1, #7
-                pore_cent[1] + 1, #8
-                pore_cent[2] + 1, #9
-                b_cent[0], #10
-                b_cent[1], #11
-                b_cent[2] , #12
-                b_l_len, #13
-                b_w_len, #14
-                b_t_len, #15
-                b_l_vec[0], #16
-                b_l_vec[1], #17 
-                b_l_vec[2], #18
-                b_w_vec[0], #19
-                b_w_vec[1], #20
-                b_w_vec[2], #21
-                b_t_vec[0], #22
-                b_t_vec[1], #23
-                b_t_vec[2], #24
+                pore_cent[0], #7
+                pore_cent[1], #8
+                pore_cent[2], #9
+                void_vtk_cent[0], #10
+                void_vtk_cent[1], #11
+                void_vtk_cent[2], #12
+                b_cent[0], #13
+                b_cent[1], #14
+                b_cent[2] , #15
+                b_l_len, #16
+                b_w_len, #17
+                b_t_len, #18
+                b_l_vec[0], #19
+                b_l_vec[1], #20 
+                b_l_vec[2], #21
+                b_w_vec[0], #22
+                b_w_vec[1], #23
+                b_w_vec[2], #24
+                b_t_vec[0], #25
+                b_t_vec[1], #26
+                b_t_vec[2], #27
                 ]
 
         void_props.append(temp_void_props_list)
@@ -651,7 +710,7 @@ if __name__ == '__main__':
 
     # First, the image stack
     imex.save_image_seq(imgs_labeled_out, imgs_pores_dir_out_path, 
-        imgs_name_out_substr, index_start_in=1)
+        imgs_name_out_substr)
 
     # Next, save the CSV file of void properties
     print(f"\nWriting pore properties to: {csv_pore_path_out}")

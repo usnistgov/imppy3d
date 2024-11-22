@@ -1,1 +1,0 @@
-This folder contains the labeled pores as images.
