@@ -534,6 +534,7 @@ if __name__ == '__main__':
             scale_spacing=voxel_width_um, quiet_in=True)
 
         voxel_void.translate(tuple(trans_vec_xyz), inplace=True)
+        voxel_void.flip_y(point=[0.0, 0.0, 0.0], inplace=True)
 
         # Calculate the center of each void in the VTK model
         cell_centers_obj = voxel_void.cell_centers() # PolyData object
@@ -745,6 +746,9 @@ if __name__ == '__main__':
 
     surf_metal = vapi.make_vtk_surf_mesh(verts, faces, vals, 
         smth_iter=1)
+
+    surf_metal.flip_y(point=[0.0, 0.0, 0.0], inplace=True)
+    surf_metal.flip_normals()
 
     surf_metal.save(vtk_solid_path_out)
 
