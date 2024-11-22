@@ -88,8 +88,10 @@ on the header strings:
     X-coordinate (in microns) of the given centroid in the VTK model.
 
     11. “Centroid VTK Y [um]”: The Y-coordinate (in microns) of the
-    given centroid in the VTK model. Also, see notes above for bullet
-    10.
+    given centroid in the VTK model. In order to maintain a right-handed
+    coordinate system, the Y-coordinate has been flipped about the 
+    origin relative to the image-index coordinates. Also, see notes 
+    above for bullet 10.
 
     12. “Centroid VTK Z [um]”: The Z-coordinate (in microns) of the
     given centroid in the VTK model. Also, see notes above for bullet
@@ -541,6 +543,16 @@ if __name__ == '__main__':
         cell_centers_arr = cell_centers_obj.points # 2D Numpy array
         void_vtk_cent = np.mean(cell_centers_arr, axis=0) # Centroid [um]
 
+        pnt_cent_vec_arr = np.ones((voxel_void.n_points, 3), dtype=np.float32)
+        pnt_cent_vec_arr[:,0] = void_vtk_cent[0]
+        pnt_cent_vec_arr[:,1] = void_vtk_cent[1]
+        pnt_cent_vec_arr[:,2] = void_vtk_cent[2]
+
+        cell_cent_vec_arr = np.ones((voxel_void.n_cells, 3), dtype=np.float32)
+        cell_cent_vec_arr[:,0] = void_vtk_cent[0]
+        cell_cent_vec_arr[:,1] = void_vtk_cent[1]
+        cell_cent_vec_arr[:,2] = void_vtk_cent[2]
+
         # Add fields to the VTK model
         voxel_void.point_data['Pore ID'] = void_id*np.ones(voxel_void.n_points,
             dtype=np.uint16)
@@ -551,14 +563,7 @@ if __name__ == '__main__':
         voxel_void.point_data['Eqv Sph Diam [um]'] = eqv_diam*np.ones(
             voxel_void.n_points, dtype=np.float32)
 
-        voxel_void.point_data['Centroid X [um]'] = void_vtk_cent[0]*np.ones(
-            voxel_void.n_points, dtype=np.float32)
-
-        voxel_void.point_data['Centroid Y [um]'] = void_vtk_cent[1]*np.ones(
-            voxel_void.n_points, dtype=np.float32)
-
-        voxel_void.point_data['Centroid Z [um]'] = void_vtk_cent[2]*np.ones(
-            voxel_void.n_points, dtype=np.float32)
+        voxel_void.point_data['Centroid [um]'] = pnt_cent_vec_arr
 
         voxel_void.cell_data['Pore ID'] = void_id*np.ones(voxel_void.n_cells,
             dtype=np.uint16)
@@ -569,14 +574,7 @@ if __name__ == '__main__':
         voxel_void.cell_data['Eqv Sph Diam [um]'] = eqv_diam*np.ones(
             voxel_void.n_cells, dtype=np.float32)
 
-        voxel_void.cell_data['Centroid X [um]'] = void_vtk_cent[0]*np.ones(
-            voxel_void.n_cells, dtype=np.float32)
-
-        voxel_void.cell_data['Centroid Y [um]'] = void_vtk_cent[1]*np.ones(
-            voxel_void.n_cells, dtype=np.float32)
-
-        voxel_void.cell_data['Centroid Z [um]'] = void_vtk_cent[2]*np.ones(
-            voxel_void.n_cells, dtype=np.float32)
+        voxel_void.cell_data['Centroid [um]'] = cell_cent_vec_arr
 
         # Save the labeled pore in a new 16-bit image stack
         ii_arr = tuple(cur_coords[:,0])
