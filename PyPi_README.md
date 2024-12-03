@@ -31,6 +31,8 @@ and voxel models can be represented as smooth surface-based models like STL
 meshes. Additional information and example scripts can be found in the included
 ReadMe files.
 
+More information and examples are discussed on the [IMPPY3D GitHub](https://github.com/usnistgov/imppy3d/) page.
+
 ## Installation 
 The development of IMPPY3D uses the [Mamba](https://github.com/conda-forge/miniforge) 
 package manager for handling dependencies, similar to the popular Conda package
@@ -45,10 +47,10 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d=1.1.5`
+`pip install imppy3d=1.1.7`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.5. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.7. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
@@ -123,7 +125,7 @@ image stack corresponds to the TOP of the physical volume; every subsequent
 image represents a slice of the volume beneath the first image. In doing so, a
 right-handed coordinate system is naturally created based on the conversion of the indicial coordinates, as shown in the picture below.
 
-![](./readme_pics/IMPPY3D_Coordinate_System.png)
+![](https://github.com/usnistgov/imppy3d/blob/main/readme_pics/IMPPY3D_Coordinate_System.png?raw=True)
 
 Tomographic reconstructions from X-ray radiographs often result in the first
 image in the image stack representing the bottom of the physical object. In
