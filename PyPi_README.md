@@ -96,6 +96,41 @@ help facilitate rapid development of new projects. As we continue to use
 IMPPY3D in new applications, we aim to continue to provide new example scripts
 in this folder. 
 
+## A Note About Coordinate Systems in IMPPY3D
+It is well known that a stack of images can represent a 3D volume, but the
+coordinate systems in such data files is not standardized. IMPPY3D regularly
+switches between two coordinate systems: indicial coordinates and Cartesian
+coordinates. In IMPPY3D, an image stack is stored as 3D Numpy array, and so,
+the indices of this 3D array can directly serve as coordinates. However, it is
+often useful to use Cartesian coordinates when applying 3D rotations or
+visualizing the volume. When converting to Cartesian coordinates from indicial
+coordinates, care must be taken so that the resultant X-, Y-, and Z-axes in the
+Cartesian system define a right-handed coordinate system. 
+
+IMPPY3D assumes the following conversion between coordinate systems applies:
+
+* Ascending image indices corresponds to ascending Z-coordinates.
+
+* Ascending row indices corresponds to ascending Y-coordinates.
+
+* Ascending column indices corresponds to ascending X-coordinates.
+
+For a given image, the 2D origin is taken to be the top-left corner of the
+image. Therefore, the X-axis points to the right (across the columns), and the
+Y-axis points downward (across the rows). However, the Z-axis in an image stack
+must be carefully considered. In IMPPY3D, we assume that the first image in the
+image stack corresponds to the TOP of the physical volume; every subsequent
+image represents a slice of the volume beneath the first image. In doing so, a
+right-handed coordinate system is naturally created based on the conversion of the indicial coordinates, as stated in the bullet points above.
+
+Tomographic reconstructions from X-ray radiographs often result in the first
+image in the image stack representing the bottom of the physical object. In
+this case, we recommend reversing the image stack prior to any post-processing
+in IMPPY3D. If the image stack is not reversed, then the resultant 3D visuals
+(as .vtk files) will be reflections of the physical object. Reversing the image
+stack can be automatically performed for you by using the 'flipz' parameter
+when importing an image stack using imppy3d.import_export.load_image_seq(). 
+
 ## Roadmap
 * Convert the comment blocks in function definitions to a common standard for 
 automatic generation of the documentation using Sphinx.

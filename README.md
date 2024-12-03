@@ -137,7 +137,21 @@ IMPPY3D assumes the following conversion between coordinate systems applies:
 
 * Ascending column indices corresponds to ascending X-coordinates.
 
+For a given image, the 2D origin is taken to be the top-left corner of the
+image. Therefore, the X-axis points to the right (across the columns), and the
+Y-axis points downward (across the rows). However, the Z-axis in an image stack
+must be carefully considered. In IMPPY3D, we assume that the first image in the
+image stack corresponds to the TOP of the physical volume; every subsequent
+image represents a slice of the volume beneath the first image. In doing so, a
+right-handed coordinate system is naturally created based on the conversion of the indicial coordinates, as stated in the bullet points above.
 
+Tomographic reconstructions from X-ray radiographs often result in the first
+image in the image stack representing the bottom of the physical object. In
+this case, we recommend reversing the image stack prior to any post-processing
+in IMPPY3D. If the image stack is not reversed, then the resultant 3D visuals
+(as .vtk files) will be reflections of the physical object. Reversing the image
+stack can be automatically performed for you by using the 'flipz' parameter
+when importing an image stack using imppy3d.import_export.load_image_seq(). 
 
 ## Roadmap
 * Convert the comment blocks in function definitions to a common standard for 
