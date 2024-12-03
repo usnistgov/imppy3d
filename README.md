@@ -65,10 +65,10 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d=1.1.3`
+`pip install imppy3d=1.1.4`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.3. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.4. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
@@ -106,14 +106,38 @@ are using should also be used to create the IMPPY3D C extensions. For Windows
 users, see the documentation, 
 [https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
 
-## Usage Examples 
+## Verify Installation and Usage Examples 
+To confirm that IMPPY3D was successfully installed, we recommend running the
+script, "./tests/main_run_tests.py". This will execute all of the unit tests
+and print a text summary of the results to the console. Individual unit tests
+can be performed by running the corresponding scripts. For example, run the
+"./tests/test_vtk_models.py" script to verify that the C-extension used to generate 3D VTK-models works. 
+
 A number of example Python scripts are provided in the "./examples/" folder to
 help facilitate rapid development of new projects. As we continue to use
 IMPPY3D in new applications, we aim to continue to provide new example scripts
 in this folder. 
 
-To confirm that IMPPY3D was successfully installed, we recommend running the
-example, "./examples/calc_metrics_pores/".
+## A Note About Coordinate Systems in IMPPY3D
+It is well known that a stack of images can represent a 3D volume, but the
+coordinate systems in such data files is not standardized. IMPPY3D regularly
+switches between two coordinate systems: indicial coordinates and Cartesian
+coordinates. In IMPPY3D, an image stack is stored as 3D Numpy array, and so,
+the indices of this 3D array can directly serve as coordinates. However, it is
+often useful to use Cartesian coordinates when applying 3D rotations or
+visualizing the volume. When converting to Cartesian coordinates from indicial
+coordinates, care must be taken so that the resultant X-, Y-, and Z-axes in the
+Cartesian system define a right-handed coordinate system. 
+
+IMPPY3D assumes the following conversion between coordinate systems applies:
+
+* Ascending image indices corresponds to ascending Z-coordinates.
+
+* Ascending row indices corresponds to ascending Y-coordinates.
+
+* Ascending column indices corresponds to ascending X-coordinates.
+
+
 
 ## Roadmap
 * Convert the comment blocks in function definitions to a common standard for 

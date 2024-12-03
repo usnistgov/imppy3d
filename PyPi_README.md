@@ -45,10 +45,10 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d=1.1.3`
+`pip install imppy3d=1.1.4`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.3. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.4. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
@@ -86,14 +86,15 @@ are using should also be used to create the IMPPY3D C extensions. For Windows
 users, see the documentation, 
 [https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
 
-## Usage Examples 
+## Verify Installation and Usage Examples 
+To confirm that IMPPY3D was successfully installed, we recommend running the
+script, "./tests/main_run_tests.py". This will execute all of the unit tests
+and print a text summary of the results to the console.
+
 A number of example Python scripts are provided in the "./examples/" folder to
 help facilitate rapid development of new projects. As we continue to use
 IMPPY3D in new applications, we aim to continue to provide new example scripts
 in this folder. 
-
-To confirm that IMPPY3D was successfully installed, we recommend running the
-example, "./examples/calc_metrics_pores/".
 
 ## Roadmap
 * Convert the comment blocks in function definitions to a common standard for 

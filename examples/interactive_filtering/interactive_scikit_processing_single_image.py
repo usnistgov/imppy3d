@@ -116,7 +116,6 @@ print(f"\nInitiating interactive deletion of small features and filling of small
 img2 = sdrv.interact_driver_del_features(img2)
 
 
-
 # -------- SKELETONIZE --------
 print(f"\nInitiating interactive skeletonization...")
 img2 = sdrv.interact_driver_skeletonize(img2)
