@@ -47,10 +47,10 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d=1.1.8`
+`pip install imppy3d==1.1.9`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.8. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.9. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
