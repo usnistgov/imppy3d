@@ -65,10 +65,10 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d=1.1.7`
+`pip install imppy3d=1.1.8`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.7. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.8. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
@@ -107,16 +107,18 @@ users, see the documentation,
 [https://wiki.python.org/moin/WindowsCompilers](https://wiki.python.org/moin/WindowsCompilers).
 
 ## Verify Installation and Usage Examples 
-To confirm that IMPPY3D was successfully installed, we recommend running the
-script, "./tests/main_run_tests.py". This will execute all of the unit tests
-and print a text summary of the results to the console. Individual unit tests
-can be performed by running the corresponding scripts. For example, run the
-"./tests/test_vtk_models.py" script to verify that the C-extension used to generate 3D VTK-models works. 
+If you would like verify your installation of IMPPY3D, there are unit test
+scripts available for download in the "./tests/" folder of the
+[GitHub repository](https://github.com/usnistgov/imppy3d/). To execute all of
+the tests, run the script, "./tests/main_run_tests.py", which will print a text
+summary of the results to the console.
 
-A number of example Python scripts are provided in the "./examples/" folder to
-help facilitate rapid development of new projects. As we continue to use
-IMPPY3D in new applications, we aim to continue to provide new example scripts
-in this folder. 
+Additionally, in the [GitHub repository](https://github.com/usnistgov/imppy3d/), 
+there are a number of example Python scripts provided in the "./examples/"
+folder. These example scripts serve as an excellent starting point when
+developing new post-processing scripts. As we continue to use IMPPY3D in new
+applications, we aim to continue to provide new example scripts in this
+folder. 
 
 ## A Note About Coordinate Systems in IMPPY3D
 It is well known that a stack of images can represent a 3D volume, but the
