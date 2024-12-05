@@ -65,10 +65,10 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d==1.1.9`
+`pip install imppy3d==1.1.10`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.1.9. Moreover, the pip installation process of IMPPY3D is
+this case, version 1.1.10. Moreover, the pip installation process of IMPPY3D is
 currently restricted to Python 3.10 environments.
 
 ### Installing Using Pip with Local Binary Files
@@ -167,13 +167,23 @@ radiographs and removal of ring artifacts.
 * Create an optimization routine that stitches multiple X-ray CT fields-of-view
 together.
 
-## Support
+## Contributing
+If you'd like to contribute to IMPPY3D, start by searching through the pull
+requests to see whether someone else has raised a similar idea or question. If
+you don't see your idea listed, and you think it fits into the goals of this
+project, open a [pull request](https://github.com/usnistgov/imppy3d/pulls).
+
+## Reporting Issues and Support
 If you encounter any bugs or unintended behavior, please create an "Issue" in
-the IMPPY3D GitHub repository and report a bug. You can also make a request for
-new features in this way. 
+the [IMPPY3D GitHub](https://github.com/usnistgov/imppy3d/issues) repository
+and label it with the "bug" tag. Provide information about the bug, and if
+possible, how to recreate the bug.  
+
+You can also make a request for new features using the Issues mechanism. Please
+label these requests with the "enhancement" tag. 
 
 For questions on how best to use IMPPY3D for a specific application, feel free
-to contact Dr. Newell Moser (see below).  
+to contact Dr. Newell Moser (see contact email below).  
 
 ## Authors and acknowledgment
 
@@ -187,6 +197,8 @@ to contact Dr. Newell Moser (see below).
 
 ### Acknowledgement:
 * Dr. Edward J. Garboczi
+
+* The JOSS team and reviewers: @gknapp1, @sitic, and @danielskatz.
 
 ## Citing This Library
 If IMPPY3D has been significant in your research, and you would like to acknowledge
