@@ -25,7 +25,7 @@ extensions = [
 
 setup(
     name='imppy3d',
-    version='1.1.10',
+    version='1.1.11',
     author='Newell Moser',  
     author_email='newell.moser@nist.gov',  
     description='IMPPY3D: A library for processing 3D image stacks',
