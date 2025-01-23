@@ -44,6 +44,7 @@ Non-commercial software packages are also available that post-process volumetric
 
 [^1]: Certain equipment, instruments, software, or materials are identified in this paper in order to specify the data processing procedure adequately. Such identification is not intended to imply recommendation or endorsement of any product or service by NIST, nor is it intended to imply that the materials or equipment identified are necessarily the best available for the purpose.
 
+
 # Research Applications of IMPPY3D
 
 IMPPY3D has been in development since 2021. During this period, the library has evolved and been used in several research thrusts at the National Institute of Standards and Technology (NIST). Examples of published research applications, mostly related to XCT, include additive manufacturing, impact mitigating foams, powder particles, concrete aggregates, and lunar soil/regolith. A non-exhaustive list of publications involving IMPPY3D includes:
