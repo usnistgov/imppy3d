@@ -188,8 +188,10 @@ plot1_obj.show("Surface Mesh")
 # Can save this as a VTK file and open in ParaView
 vtk_obj.save("./surface_model.vtk")
 
-# To save as something else, like an STL, use the meshio save function. To use
-# meshio with Python 3.7 or older, you will need to install in Anaconda this
-# package: conda install -c anaconda importlib_metadata
+# To save as something else, like an STL, use the meshio save function. To 
+# use meshio with Python 3.7 or older, you may need to install a dependency.
+# Example commands for Anaconda (conda) and Miniforge (mamba) given below:
+#   >> conda install anaconda::importlib_metadata
+#   >> mamba install conda-forge::importlib_metadata
 
 #pv.save_meshio("./surface_model.stl", vtk_obj)
