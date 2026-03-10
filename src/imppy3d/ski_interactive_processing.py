@@ -902,6 +902,9 @@ def interact_adaptive_thresholding(img_in):
     ax.set_ylabel("Y Pixel Number")
 
     plt.subplots_adjust(bottom=0.26)
+    status_text = fig.text(0.5, 0.005, 'Ready', ha='center',
+                           fontsize=10, color='green',
+                           fontweight='bold')
 
     block_sz_ax = fig.add_axes([0.20, 0.12, 0.15, 0.06])
     block_sz_txt_box = TextBox(ax=block_sz_ax, label='Block Size (odd)  ', 
@@ -918,7 +921,13 @@ def interact_adaptive_thresholding(img_in):
         nonlocal block_sz
         nonlocal thresh_offset
         nonlocal img_out
-
+          
+        status_text.set_text('Computing...')
+        status_text.set_color('red')
+        update_button.label.set_text('Computing...')
+        fig.canvas.draw_idle()
+        fig.canvas.flush_events()
+        
         block_sz = int(block_sz_txt_box.text)
         thresh_offset = float(filt_off_txt_box.text)
 
@@ -932,6 +941,9 @@ def interact_adaptive_thresholding(img_in):
 
         # Update the image
         img_obj.set(data=img_out)
+        status_text.set_text('Ready')
+        status_text.set_color('green')
+        update_button.label.set_text('Update')
         fig.canvas.draw()
 
     # Call the update function when the 'update' button is clicked
