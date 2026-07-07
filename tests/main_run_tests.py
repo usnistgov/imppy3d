@@ -29,6 +29,7 @@ os.makedirs(temp_dir_path, exist_ok=True)
 flag_000, msg_000 = t_io.io_img_stack_8bit(temp_dir_path)
 flag_001, msg_001 = t_io.io_img_stack_16bit(temp_dir_path)
 flag_002, msg_002 = t_io.io_multipage_tiff_stack(temp_dir_path)
+flag_003, msg_003 = t_io.natural_sort_img_seq(temp_dir_path)
 
 
 # ---------------- CREATION OF VTK MODELS ---------------- 
@@ -60,6 +61,7 @@ print(f"\n\n\n---------- SUMMARY OF ALL UNIT TESTS ----------")
 print(msg_000)
 print(msg_001)
 print(msg_002)
+print(msg_003)
 
 print(msg_100)
 print(msg_101)

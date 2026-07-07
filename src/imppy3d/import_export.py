@@ -4,6 +4,26 @@ from skimage.util import img_as_ubyte, img_as_uint
 from skimage import io
 import glob
 import os.path
+import re
+
+
+def _natural_sort_key(name):
+    """Sort key that orders any embedded integers numerically, not lexically.
+
+    A plain string sort places "img_10.tif" before "img_2.tif" (because the
+    character '1' < '2'), which silently reorders an image stack so that, for
+    example, the second-loaded frame is actually source image 10. Splitting the
+    name into digit and non-digit runs and comparing the digit runs as integers
+    restores numeric order: "img_2" < "img_10". Zero-padded names ("img_0002"
+    vs. "img_0010") are unaffected -- they already sort correctly either way.
+
+    ``re.split(r'(\\d+)', ...)`` always yields an alternating text/digits/text/
+    ... list, so for a set of similarly-structured filenames the digit runs land
+    at the same positions and the mixed int/str key elements never compare
+    against each other.
+    """
+    return [int(chunk) if chunk.isdigit() else chunk
+            for chunk in re.split(r'(\d+)', name)]
 
 
 def load_image(path_in, img_bitdepth='uint8', quiet_in=False):
@@ -507,7 +527,9 @@ def load_image_seq(path_in, file_name_in='', img_bitdepth_in='uint8',
 
     # The Glob module does not guarantee that the results will be sorted.
     img_names = list(dict.fromkeys(img_names)) # Removes duplicates
-    img_names.sort() # Asecending order based on the string file names
+    # Natural (numeric-aware) sort so "img_10" follows "img_9" instead of
+    # "img_1"; a plain string sort would silently reorder un-zero-padded stacks.
+    img_names.sort(key=_natural_sort_key)
 
     if indices_keep: # If not empty
         # If not already, force the data to be positive and of type integer
@@ -748,7 +770,9 @@ def load_image_seq_ASCII(path_in, file_name_in='', indices_in=(),
 
     # The Glob module does not guarantee that the results will be sorted.
     img_names = list(dict.fromkeys(img_names)) # Removes duplicates
-    img_names.sort() # Asecending order based on the string file names
+    # Natural (numeric-aware) sort so "img_10" follows "img_9" instead of
+    # "img_1"; a plain string sort would silently reorder un-zero-padded stacks.
+    img_names.sort(key=_natural_sort_key)
 
     if indices_keep: # If not empty
         # If not already, force the data to be positive and of type integer
