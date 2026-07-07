@@ -227,6 +227,34 @@ def natural_sort_img_seq(dir_path='./'):
         del_all_img_files(dir_path)
         return [1, test_name + " ERROR"]
 
+    # With flipz=True the stack is reversed, and the returned filenames must stay
+    # aligned with the frames: names[k] must name the file whose frame is imgs[k].
+    try:
+        imgs_f, names_f = imex.load_image_seq(dir_path,
+            file_name_in="natsort_", img_bitdepth_in='uint8', flipz=True)
+    except:
+        print(f"\nERROR: Failed to load the natural-sort test stack with flipz.")
+        del_all_img_files(dir_path)
+        return [1, test_name + " ERROR"]
+
+    flip_order = [int(imgs_f[k, 0, 0]) for k in range(n_imgs)]
+    if flip_order != list(range(n_imgs, 0, -1)):
+        print(f"\nERROR: flipz stack not reversed. Expected "
+              f"{list(range(n_imgs, 0, -1))}, got {flip_order}.")
+        del_all_img_files(dir_path)
+        return [1, test_name + " ERROR"]
+
+    # names_f[k] should reference the same index encoded in imgs_f[k, 0, 0].
+    for k in range(n_imgs):
+        name_idx = int(''.join(ch for ch in os.path.basename(names_f[k])
+                               if ch.isdigit()))
+        if name_idx != int(imgs_f[k, 0, 0]):
+            print(f"\nERROR: flipz misaligned names and frames at index {k}: "
+                  f"name '{names_f[k]}' (idx {name_idx}) vs frame idx "
+                  f"{int(imgs_f[k, 0, 0])}.")
+            del_all_img_files(dir_path)
+            return [1, test_name + " ERROR"]
+
     del_all_img_files(dir_path)
     return [0, test_name + " SUCCESS"] # (False) No errors
 

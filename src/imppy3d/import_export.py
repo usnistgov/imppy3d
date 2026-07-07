@@ -644,6 +644,9 @@ def load_image_seq(path_in, file_name_in='', img_bitdepth_in='uint8',
         print(f"\nReversing the order of the image stack (i.e.," \
             + " flipping the Z-direction)...")
         imgs = np.flip(imgs, axis=0)
+        # Reverse the filename list too so it stays aligned with the frames;
+        # otherwise the returned img_names no longer correspond to imgs.
+        img_names.reverse()
 
     # Return the image objects, image properties, and string file names
     return [imgs, img_names]
