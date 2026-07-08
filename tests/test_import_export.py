@@ -184,15 +184,92 @@ def io_multipage_tiff_stack(dir_path='./'):
     return [0, test_name + " SUCCESS"] # (False) No errors
 
 
+def natural_sort_img_seq(dir_path='./'):
+    test_name = "\nTEST: NATURAL (NUMERIC) ORDERING OF IMAGE SEQUENCES..."
+    print(test_name)
+
+    os.makedirs(dir_path, exist_ok=True)
+
+    # Write image files with UN-zero-padded numeric names (natsort_1.tif ..
+    # natsort_12.tif). save_image_seq() zero-pads its output, so it cannot
+    # reproduce this case -- we write the names directly. Each frame encodes its
+    # own 1-based index in pixel [0, 0] so the load order can be verified.
+    # A plain string sort would order these as 1, 10, 11, 12, 2, 3, ... .
+    n_imgs = 12
+    for ii in range(1, n_imgs + 1):
+        img_ii = np.zeros((16, 16), dtype=np.uint8)
+        img_ii[0, 0] = ii
+        img_path = os.path.normcase(dir_path + f"natsort_{ii}.tif")
+        try:
+            imex.save_image(img_ii, img_path, quiet_in=True)
+        except:
+            print(f"\nERROR: Failed to save natural-sort test image {ii}.")
+            return [1, test_name + " ERROR"]
+
+    try:
+        imgs_in, imgs_names = imex.load_image_seq(dir_path,
+            file_name_in="natsort_", img_bitdepth_in='uint8')
+    except:
+        print(f"\nERROR: Failed to load the natural-sort test image stack.")
+        return [1, test_name + " ERROR"]
+
+    if imgs_in is None or imgs_in.shape[0] != n_imgs:
+        print(f"\nERROR: Expected {n_imgs} images, got "
+              f"{None if imgs_in is None else imgs_in.shape[0]}.")
+        del_all_img_files(dir_path)
+        return [1, test_name + " ERROR"]
+
+    # Frame k (0-based) must be source image k+1 -> pixel [0, 0] == k + 1.
+    loaded_order = [int(imgs_in[k, 0, 0]) for k in range(n_imgs)]
+    if loaded_order != list(range(1, n_imgs + 1)):
+        print(f"\nERROR: Image stack loaded out of order. Expected "
+              f"{list(range(1, n_imgs + 1))}, got {loaded_order}.")
+        del_all_img_files(dir_path)
+        return [1, test_name + " ERROR"]
+
+    # With flipz=True the stack is reversed, and the returned filenames must stay
+    # aligned with the frames: names[k] must name the file whose frame is imgs[k].
+    try:
+        imgs_f, names_f = imex.load_image_seq(dir_path,
+            file_name_in="natsort_", img_bitdepth_in='uint8', flipz=True)
+    except:
+        print(f"\nERROR: Failed to load the natural-sort test stack with flipz.")
+        del_all_img_files(dir_path)
+        return [1, test_name + " ERROR"]
+
+    flip_order = [int(imgs_f[k, 0, 0]) for k in range(n_imgs)]
+    if flip_order != list(range(n_imgs, 0, -1)):
+        print(f"\nERROR: flipz stack not reversed. Expected "
+              f"{list(range(n_imgs, 0, -1))}, got {flip_order}.")
+        del_all_img_files(dir_path)
+        return [1, test_name + " ERROR"]
+
+    # names_f[k] should reference the same index encoded in imgs_f[k, 0, 0].
+    for k in range(n_imgs):
+        name_idx = int(''.join(ch for ch in os.path.basename(names_f[k])
+                               if ch.isdigit()))
+        if name_idx != int(imgs_f[k, 0, 0]):
+            print(f"\nERROR: flipz misaligned names and frames at index {k}: "
+                  f"name '{names_f[k]}' (idx {name_idx}) vs frame idx "
+                  f"{int(imgs_f[k, 0, 0])}.")
+            del_all_img_files(dir_path)
+            return [1, test_name + " ERROR"]
+
+    del_all_img_files(dir_path)
+    return [0, test_name + " SUCCESS"] # (False) No errors
+
+
 if __name__ == '__main__':
 
     temp_dir_path = "./local_swap/"
     flag_000, msg_000 = io_img_stack_8bit(temp_dir_path)
     flag_001, msg_001 = io_img_stack_16bit(temp_dir_path)
     flag_002, msg_002 = io_multipage_tiff_stack(temp_dir_path)
+    flag_003, msg_003 = natural_sort_img_seq(temp_dir_path)
 
     print(f"\n\n\n---------- SUMMARY ----------")
     print(msg_000)
     print(msg_001)
     print(msg_002)
+    print(msg_003)
     print("\n")
