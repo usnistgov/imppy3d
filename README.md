@@ -61,7 +61,7 @@ the IMPPY3D repository(for Windows or Linux machines). Alternatively, IMPPY3D
 can be compiled using setuptools. The following subsections go into more
 details for each of these installation cases.
 
-### Installing From PyPi (Python 3.10)
+### Installing From PyPi (Python 3.10 or Python 3.14)
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
