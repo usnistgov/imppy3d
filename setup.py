@@ -25,7 +25,7 @@ extensions = [
 
 setup(
     name='imppy3d',
-    version='1.2.0',
+    version='1.3.0',
     author='Newell Moser',  
     author_email='newell.moser@nist.gov',  
     description='IMPPY3D: A library for processing 3D image stacks',
@@ -68,5 +68,5 @@ setup(
         "Operating System :: POSIX :: Linux",
         "Operating System :: Microsoft :: Windows",
     ],
-    python_requires='>=3.9,<3.14',
+    python_requires='>=3.9,<3.15',
 )
