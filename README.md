@@ -65,18 +65,18 @@ details for each of these installation cases.
 The simplest method of installing IMPPY3D is through [PyPi](https://pypi.org/project/imppy3d/). 
 Installing IMPPY3D from PyPi can be achieved using `pip` via the following,
 
-`pip install imppy3d==1.2.0`
+`pip install imppy3d==1.3.0`
 
 It is important that you explicitly specify the latest version of IMPPY3D, in
-this case, version 1.2.0. Moreover, the pip installation process of IMPPY3D is
-currently restricted to Python 3.10 environments.
+this case, version 1.3.0. Moreover, the pip installation process of IMPPY3D is
+currently restricted to Python 3.10 or 3.14 environments.
 
 ### Installing Using Pip with Local Binary Files
 The binary .whl files are located in the folder, "./dist/", of the
 [GitHub repository](https://github.com/usnistgov/imppy3d/). The name
 of the .whl files will contain information about the Python version, IMPPY3D
 version number, and operating system. Currently, precompiled .whl files are
-only available for Windows and Linux operating systems using Python 3.10. To
+only available for Windows and Linux operating systems using Python 3.10 or 3.14. To
 install IMPPY3D using one of these precompiled .whl files, choose the
 appropriate .whl for your operating system and use the `pip` command in your
 Python environment,
